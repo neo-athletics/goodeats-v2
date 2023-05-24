@@ -1,16 +1,17 @@
-import React from "react";
+// import React from "react";
 import styles from "../page.module.css";
 import Image from "next/image";
-import { fetchRestaurants } from "../components/restaurantData";
+import { fetchRestaurants } from "../components/fetchRestaurantData";
 
 //render data in this component or separate
 
-const Restaurants = async ({ location, food }) => {
-    const restaurants = await fetchRestaurants(location, food);
-
+const Restaurants = () => {
+    // const restaurants = await fetchRestaurants(location, food);
+    console.log("restaurant", "component");
     return (
         <div className={styles.box}>
-            {restaurants.map((restaurant, index: number) => (
+            <p>hello</p>
+            {/* {restaurants?.map((restaurant, index: number) => (
                 <div key={index} className={styles.box}>
                     <Image
                         src={restaurant.image_url}
@@ -23,7 +24,7 @@ const Restaurants = async ({ location, food }) => {
                     <p>reviews {restaurant.review_count}</p>
                     <p>{restaurant.display_address}</p>
                 </div>
-            ))}
+            ))} */}
         </div>
     );
 };

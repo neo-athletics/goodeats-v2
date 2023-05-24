@@ -1,6 +1,12 @@
 import { NextResponse } from "next/server";
 
-export async function GET() {
+export async function GET(request: Request) {
+    const { searchParams } = new URL(request.url);
+
+    const location = searchParams.get("location");
+    const food = searchParams.get("term");
+    const sort_by = searchParams.get("sort_by");
+
     const options = {
         method: "GET",
         headers: {
@@ -10,22 +16,12 @@ export async function GET() {
     };
 
     const res = await fetch(
-        "https://api.yelp.com/v3/businesses/search?location=chicago&open_now=true&sort_by=best_match&limit=20",
+        `https://api.yelp.com/v3/businesses/search?location=${location}&term=${food}&sort_by=${sort_by}&limit=20`,
         options
     );
 
     const data = await res.json();
-    // console.log(data);
+    console.log(data);
 
     return NextResponse.json(data);
 }
-
-//filter options
-/*
-location
-term
-reviews
-open status
-sort_by :(best_match,rating,distance..)
-
-*/

@@ -16,9 +16,7 @@ const formatRestaurantData = (restaurant) => {
 };
 
 export const fetchRestaurants = async () => {
-    const res = await fetch("http://localhost:3000/api/restaurants/", {
-        cache: "no-store",
-    });
+    // const res = await fetch( `http://localhost:3000/api/restaurants/?location=${location}&term=${food}&sort_by=${sort_by}`);
 
     const yelpData = await res.json();
 
