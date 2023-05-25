@@ -1,20 +1,15 @@
 "use client";
-import React, { useState } from "react";
+import { useStore } from "../store";
+import React from "react";
+import { useRouter } from "next/navigation";
 
 const SearchAndFilter = () => {
-    const [keyterms, setKeyterms] = useState({
-        location: "",
-        food: "",
-        sort_by: "",
-    });
+    const router = useRouter();
+    const { location, food, sort_by } = useStore((state) => state.keyterms);
+    const state = useStore();
 
-    const handleChange = (e) => {
-        setKeyterms({ ...keyterms, [e.target.name]: e.target.value });
-    };
-
-    const searchHandler = async () => {
-        const { location, food, sort_by } = keyterms;
-        console.log(await fetchRestaurants(location, food, sort_by));
+    const searchHandler = () => {
+        console.log(location, food, sort_by);
     };
 
     return (
@@ -25,8 +20,10 @@ const SearchAndFilter = () => {
                 name="location"
                 type="text"
                 placeholder="location"
-                onChange={handleChange}
-                value={keyterms.location}
+                onChange={(e) =>
+                    state.updateTerm(e.target.name, e.target.value)
+                }
+                value={location}
             />
             <label htmlFor="food">Restaurant</label>
             <input
@@ -34,14 +31,18 @@ const SearchAndFilter = () => {
                 name="food"
                 type="text"
                 placeholder="food, starbucks"
-                onChange={handleChange}
-                value={keyterms.food}
+                onChange={(e) =>
+                    state.updateTerm(e.target.name, e.target.value)
+                }
+                value={food}
             />
 
             <select
-                value={keyterms.sort_by}
+                value={sort_by}
                 name="sort_by"
-                onChange={handleChange}
+                onChange={(e) =>
+                    state.updateTerm(e.target.name, e.target.value)
+                }
             >
                 <option value="best_match">Best Match</option>
                 <option value="rating">Rating</option>
