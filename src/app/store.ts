@@ -13,7 +13,7 @@ export const useStore = create<State>((set) => ({
     keyterms: {
         location: "",
         food: "",
-        sort_by: "",
+        sort_by: "best_match",
     },
     updateTerm: (name: string, value: string) =>
         set((state) => ({

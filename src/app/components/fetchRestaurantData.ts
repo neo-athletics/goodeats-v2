@@ -1,4 +1,3 @@
-import { useStore } from "../store";
 const formatRestaurantData = (restaurant) => {
     const {
         name,
@@ -16,20 +15,19 @@ const formatRestaurantData = (restaurant) => {
     };
 };
 
-export const fetchRestaurants = async () => {
-    const key_val = useStore.getState().keyterms.sort_by;
-    console.log(key_val, "fetching");
+export const fetchRestaurants = async (location, food, sort_by) => {
+    try {
+        const res = await fetch(
+            `http://localhost:3000/api/restaurants/?location=${location}&term=${food}&sort_by=${sort_by}`,
+            { cache: "no-cache" }
+        );
 
-    // const res = await fetch(
-    //     `http://localhost:3000/api/restaurants/?location=${location}&term=${food}&sort_by=${sort_by}`,
-    //     {
-    //         cache: "no-cache",
-    //     }
-    // );
-    // console.log(location, food, sort_by, "what");
-    // const yelpData = await res.json();
-
-    // return yelpData.businesses?.map((business) =>
-    //     formatRestaurantData(business)
-    // );
+        const yelpData = await res.json();
+        console.log(yelpData, "data");
+        return yelpData.businesses?.map((business) =>
+            formatRestaurantData(business)
+        );
+    } catch (error) {
+        console.log(error, "error here");
+    }
 };
