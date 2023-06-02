@@ -22,12 +22,17 @@ export const fetchRestaurants = async (location, food, sort_by) => {
             { cache: "no-cache" }
         );
 
+        if (!res.ok) {
+            const error = await res.json();
+            throw error;
+        }
+
         const yelpData = await res.json();
-        console.log(yelpData, "data");
         return yelpData.businesses?.map((business) =>
             formatRestaurantData(business)
         );
     } catch (error) {
         console.log(error, "error here");
+        return error;
     }
 };
