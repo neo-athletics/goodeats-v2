@@ -10,35 +10,37 @@ const Restaurants = async ({ searchParams }) => {
     //logic and error handling for searchparams
     const params = Object.keys(searchParams);
     const paramsVal = Object.values(searchParams);
-    //paramsVal.every(val => val !== '') return true if no key has an empty value
-    let bool;
-    let error;
 
-    if (params.length === 3) {
-        bool = params.every((val) => requiredParams.includes(val));
-        if (!bool) error = "incorrect query params provided";
-    } else if (params.length <= 2 || params.length > 3) {
+    let error;
+    let data;
+
+    let valBool = paramsVal.every((val) => val !== "");
+
+    let keyBool = params.every((val) => requiredParams.includes(val));
+    let errBool = false;
+
+    //execute fetch function here
+    if (params.length === 3 && valBool && keyBool) {
+        data = await fetchRestaurants(location, food, sort_by);
+        errBool = false;
+    } else if (
+        (params.length > 0 && params.length <= 2) ||
+        params.length > 3 ||
+        (params.length === 3 && !valBool)
+    ) {
         error = "please provide the necessary params";
+        errBool = true;
     }
 
     /*
-    cases
+    Edge cases
     --params length is 3 but are incorrectly spelled or wrong params
     --params length is less or more than 3
     --how will errors be presented
-
-    -check for this 
     --required params provided but with empty value
 
     */
 
-    //"please provided the necessary query parameters";
-    // if bool true execute fetch function else throw custom error
-    console.log(bool, "get bool");
-    const data = await fetchRestaurants(location, food, sort_by);
-
-    console.log(searchParams, "params");
-    console.log(data, "restaurants");
     return (
         <div className={styles.box}>
             {Array.isArray(data) && data.length ? (
@@ -56,7 +58,7 @@ const Restaurants = async ({ searchParams }) => {
                         <p>{restaurant.display_address}</p>
                     </div>
                 ))
-            ) : !bool ? (
+            ) : errBool ? (
                 <p>{error}</p>
             ) : (
                 <p>{data?.error}</p>
