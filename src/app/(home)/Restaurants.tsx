@@ -42,7 +42,7 @@ const Restaurants = async ({ searchParams }) => {
     */
 
     return (
-        <div className={styles.box}>
+        <div className={styles.results}>
             {Array.isArray(data) && data.length ? (
                 data?.map((restaurant, index: number) => (
                     <div key={index} className={styles.box}>
