@@ -2,6 +2,8 @@
 import styles from "../page.module.css";
 import Image from "next/image";
 import { fetchRestaurants } from "../components/fetchRestaurantData";
+import Favorite from "../components/Favorite";
+
 const Restaurants = async ({ searchParams }) => {
     const { location, food, sort_by } = searchParams;
 
@@ -32,15 +34,6 @@ const Restaurants = async ({ searchParams }) => {
         errBool = true;
     }
 
-    /*
-    Edge cases
-    --params length is 3 but are incorrectly spelled or wrong params
-    --params length is less or more than 3
-    --how will errors be presented
-    --required params provided but with empty value
-
-    */
-
     return (
         <div className={styles.results}>
             {Array.isArray(data) && data.length ? (
@@ -52,6 +45,7 @@ const Restaurants = async ({ searchParams }) => {
                             width={200}
                             height={200}
                         />
+                        <Favorite favorite={restaurant.favorite} />
                         <p>{restaurant.name}</p>
                         <p>rating: {restaurant.rating}</p>
                         <p>reviews {restaurant.review_count}</p>

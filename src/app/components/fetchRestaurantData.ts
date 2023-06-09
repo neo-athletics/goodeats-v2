@@ -12,14 +12,14 @@ const formatRestaurantData = (restaurant) => {
         rating,
         review_count,
         display_address,
+        favorite: false,
     };
 };
 
 export const fetchRestaurants = async (location, food, sort_by) => {
     try {
         const res = await fetch(
-            `http://localhost:3000/api/restaurants/?location=${location}&term=${food}&sort_by=${sort_by}`,
-            { cache: "no-cache" }
+            `http://localhost:3000/api/restaurants/?location=${location}&term=${food}&sort_by=${sort_by}`
         );
 
         if (!res.ok) {
