@@ -1,24 +1,28 @@
 "use client";
-import React, { useState } from "react";
+import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHeart } from "@fortawesome/free-regular-svg-icons";
 import { faHeart as faHeartSolid } from "@fortawesome/free-solid-svg-icons";
 import styles from "../page.module.css";
+import { useStore } from "../store";
+// build a function to handle setting favorite restaurant and removing it from (favorite) list
 
-const Favorite = ({ favorite }) => {
+const Favorite = ({ restaurant }) => {
+    const { addFavorite, removeFavorite, restaurants } = useStore(
+        (state) => state
+    );
+    console.log(useStore.getState().restaurants[0], restaurants, restaurant);
     return (
         <div className={styles.favoriteContainer}>
             <FontAwesomeIcon
-                className={favorite ? styles.fadeIn : styles.fadeOut}
-                // onClick={() => setFavorite(!favorite)}
+                className={
+                    !restaurant.favorite ? styles.fadeOut : styles.fadeIn
+                }
+                onClick={() =>
+                    !restaurant.favorite
+                        ? addFavorite(restaurant)
+                        : removeFavorite(restaurant)
+                }
                 icon={faHeartSolid}
-                color="red"
-                size="xl"
-            />
-            <FontAwesomeIcon
-                className={favorite ? styles.fadeOut : styles.fadeIn}
-                // onClick={() => setFavorite(!favorite)}
-                icon={faHeart}
                 size="xl"
             />
         </div>

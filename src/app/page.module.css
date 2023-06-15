@@ -26,34 +26,11 @@
 .fadeIn {
     position: absolute;
     top: 0;
-    animation-name: fadein;
-    animation-duration: 0.5s;
+    pointer-events: all;
+    color: red;
+    transition: color 0.3s ease-in;
 }
-/* make element disappear */
 .fadeOut {
-    position: absolute;
-    top: 0;
-    animation-name: fadeout;
-    animation-duration: 0.5s;
-    opacity: 0;
-}
-@keyframes fadein {
-    from {
-        opacity: 0;
-        display: none;
-    }
-
-    to {
-        opacity: 1;
-    }
-}
-
-@keyframes fadeout {
-    from {
-        opacity: 1;
-    }
-
-    to {
-        opacity: 0;
-    }
+    color: #dadada;
+    transition: color 0.3s ease-out;
 }

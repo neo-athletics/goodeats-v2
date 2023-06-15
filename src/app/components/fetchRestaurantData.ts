@@ -1,5 +1,6 @@
 const formatRestaurantData = (restaurant) => {
     const {
+        id,
         name,
         image_url,
         rating,
@@ -7,6 +8,7 @@ const formatRestaurantData = (restaurant) => {
         location: { display_address },
     } = restaurant;
     return {
+        id,
         name,
         image_url,
         rating,

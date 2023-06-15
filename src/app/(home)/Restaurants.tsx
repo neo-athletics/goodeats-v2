@@ -1,4 +1,5 @@
 // import React from "react";
+import { useStore } from "../store";
 import styles from "../page.module.css";
 import Image from "next/image";
 import { fetchRestaurants } from "../components/fetchRestaurantData";
@@ -24,6 +25,9 @@ const Restaurants = async ({ searchParams }) => {
     //execute fetch function here
     if (params.length === 3 && valBool && keyBool) {
         data = await fetchRestaurants(location, food, sort_by);
+        if (Array.isArray(data) && data.length) {
+            useStore.setState({ restaurants: [...data] });
+        }
         errBool = false;
     } else if (
         (params.length > 0 && params.length <= 2) ||
@@ -34,24 +38,29 @@ const Restaurants = async ({ searchParams }) => {
         errBool = true;
     }
 
+    // const restaurants = useStore.getState().restaurants;
+    //use the restaurant data from store
     return (
         <div className={styles.results}>
-            {Array.isArray(data) && data.length ? (
-                data?.map((restaurant, index: number) => (
-                    <div key={index} className={styles.box}>
-                        <Image
-                            src={restaurant.image_url}
-                            alt="restaurant food"
-                            width={200}
-                            height={200}
-                        />
-                        <Favorite favorite={restaurant.favorite} />
-                        <p>{restaurant.name}</p>
-                        <p>rating: {restaurant.rating}</p>
-                        <p>reviews {restaurant.review_count}</p>
-                        <p>{restaurant.display_address}</p>
-                    </div>
-                ))
+            {Array.isArray(useStore.getState().restaurants) &&
+            useStore.getState().restaurants.length ? (
+                useStore
+                    .getState()
+                    .restaurants?.map((restaurant, index: number) => (
+                        <div key={index} className={styles.box}>
+                            <Image
+                                src={restaurant.image_url}
+                                alt="restaurant food"
+                                width={200}
+                                height={200}
+                            />
+                            <Favorite restaurant={restaurant} />
+                            <p>{restaurant.name}</p>
+                            <p>rating: {restaurant.rating}</p>
+                            <p>reviews {restaurant.review_count}</p>
+                            <p>{restaurant.display_address}</p>
+                        </div>
+                    ))
             ) : errBool ? (
                 <p>{error}</p>
             ) : (

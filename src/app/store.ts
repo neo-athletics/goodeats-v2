@@ -1,5 +1,4 @@
 import { create } from "zustand";
-
 type State = {
     keyterms: {
         location: string;
@@ -7,11 +6,11 @@ type State = {
         sort_by: string;
     };
 
-    favorites: [];
-    restaurants: [];
+    restaurants: Restaurant[];
 };
 
 type Restaurant = {
+    id: string;
     name: string;
     image_url: string;
     rating: number;
@@ -25,8 +24,7 @@ type Action = {
     //add restaurant to favorite list
     addFavorite: (restaurant: Restaurant) => void;
     //remove restaurant from favorite list
-    //pass by id or name
-    removeFavorite: () => void;
+    removeFavorite: (restaurant: Restaurant) => void;
 };
 
 export const useStore = create<State & Action>((set) => ({
@@ -35,14 +33,27 @@ export const useStore = create<State & Action>((set) => ({
         food: "",
         sort_by: "best_match",
     },
-    favorites: [],
     restaurants: [],
     updateTerm: (name: string, value: string) =>
         set((state) => ({
             ...state,
             keyterms: { ...state.keyterms, [name]: value },
         })),
-    addFavorite: () => set(() => ({})),
-    removeFavorite: () => set(() => ({})),
+    //keeps stacking same liked restaurant
+    //Trying to over ride object (Favorite prop) from select restaurant find in array and override prop
+    addFavorite: (restaurant: Restaurant) =>
+        set((state) => ({
+            ...state,
+            restaurants: state.restaurants.map((val) =>
+                val.id === restaurant.id ? { ...val, favorite: true } : val
+            ),
+        })),
+
+    removeFavorite: (restaurant: Restaurant) =>
+        set((state) => ({
+            ...state,
+            restaurants: state.restaurants.map((val) =>
+                val.id === restaurant.id ? { ...val, favorite: false } : val
+            ),
+        })),
 }));
-// what will these functions take in as parameters and articulate their intent

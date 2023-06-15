@@ -1,21 +1,29 @@
 "use client";
-type keyterms = {
-    keyterms: {
-        location: string;
-        food: string;
-        sort_by: string;
-    };
+type Restaurant = {
+    id: string;
+    name: string;
+    image_url: string;
+    rating: number;
+    review_count: number;
+    display_address: string;
+    favorite: boolean;
 };
 import { useRef } from "react";
 import { useStore } from "../store";
-function StoreInitializer({ keyterms }: { keyterms: keyterms }) {
+
+function StoreInitializer({ restaurants }: { restaurants: Restaurant[] }) {
     const initialized = useRef(false);
     if (!initialized.current) {
         useStore.setState((state) => ({
             ...state,
-            keyterms: { ...state.keyterms, ...keyterms },
+            restaurants: [...restaurants],
         }));
         initialized.current = true;
+    } else if (initialized.current) {
+        useStore.setState((state) => ({
+            ...state,
+            restaurants: [...state.restaurants],
+        }));
     }
     return null;
 }
