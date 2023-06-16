@@ -1,9 +1,7 @@
 // import React from "react";
 import { useStore } from "../store";
-import styles from "../page.module.css";
-import Image from "next/image";
 import { fetchRestaurants } from "../components/fetchRestaurantData";
-import Favorite from "../components/Favorite";
+import Restaurant from "./Restaurant";
 
 const Restaurants = async ({ searchParams }) => {
     const { location, food, sort_by } = searchParams;
@@ -38,34 +36,9 @@ const Restaurants = async ({ searchParams }) => {
         errBool = true;
     }
 
-    // const restaurants = useStore.getState().restaurants;
-    //use the restaurant data from store
     return (
-        <div className={styles.results}>
-            {Array.isArray(useStore.getState().restaurants) &&
-            useStore.getState().restaurants.length ? (
-                useStore
-                    .getState()
-                    .restaurants?.map((restaurant, index: number) => (
-                        <div key={index} className={styles.box}>
-                            <Image
-                                src={restaurant.image_url}
-                                alt="restaurant food"
-                                width={200}
-                                height={200}
-                            />
-                            <Favorite restaurant={restaurant} />
-                            <p>{restaurant.name}</p>
-                            <p>rating: {restaurant.rating}</p>
-                            <p>reviews {restaurant.review_count}</p>
-                            <p>{restaurant.display_address}</p>
-                        </div>
-                    ))
-            ) : errBool ? (
-                <p>{error}</p>
-            ) : (
-                <p>{data?.error}</p>
-            )}
+        <div>
+            <Restaurant data={data} errBool={errBool} error={error} />
         </div>
     );
 };

@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { persist } from "zustand/middleware";
 type State = {
     keyterms: {
         location: string;
@@ -27,33 +28,43 @@ type Action = {
     removeFavorite: (restaurant: Restaurant) => void;
 };
 
-export const useStore = create<State & Action>((set) => ({
-    keyterms: {
-        location: "",
-        food: "",
-        sort_by: "best_match",
-    },
-    restaurants: [],
-    updateTerm: (name: string, value: string) =>
-        set((state) => ({
-            ...state,
-            keyterms: { ...state.keyterms, [name]: value },
-        })),
-    //keeps stacking same liked restaurant
-    //Trying to over ride object (Favorite prop) from select restaurant find in array and override prop
-    addFavorite: (restaurant: Restaurant) =>
-        set((state) => ({
-            ...state,
-            restaurants: state.restaurants.map((val) =>
-                val.id === restaurant.id ? { ...val, favorite: true } : val
-            ),
-        })),
+export const useStore = create<State & Action>()(
+    persist(
+        (set) => ({
+            keyterms: {
+                location: "",
+                food: "",
+                sort_by: "best_match",
+            },
+            restaurants: [],
+            updateTerm: (name: string, value: string) =>
+                set((state) => ({
+                    ...state,
+                    keyterms: { ...state.keyterms, [name]: value },
+                })),
+            addFavorite: (restaurant: Restaurant) =>
+                set((state) => ({
+                    ...state,
+                    restaurants: state.restaurants.map((val) =>
+                        val.id === restaurant.id
+                            ? { ...val, favorite: true }
+                            : val
+                    ),
+                })),
 
-    removeFavorite: (restaurant: Restaurant) =>
-        set((state) => ({
-            ...state,
-            restaurants: state.restaurants.map((val) =>
-                val.id === restaurant.id ? { ...val, favorite: false } : val
-            ),
-        })),
-}));
+            removeFavorite: (restaurant: Restaurant) =>
+                set((state) => ({
+                    ...state,
+                    restaurants: state.restaurants.map((val) =>
+                        val.id === restaurant.id
+                            ? { ...val, favorite: false }
+                            : val
+                    ),
+                })),
+        }),
+        {
+            name: "restaurants",
+            partialize: (state) => ({ restaurants: state.restaurants }),
+        }
+    )
+);
