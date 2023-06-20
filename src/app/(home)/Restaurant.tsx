@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect } from "react";
+import React from "react";
 import Image from "next/image";
 import Favorite from "../components/Favorite";
 import styles from "../page.module.css";

@@ -8,6 +8,7 @@ type State = {
     };
 
     restaurants: Restaurant[];
+    favorites: Restaurant[];
 };
 
 type Restaurant = {
@@ -26,6 +27,17 @@ type Action = {
     addFavorite: (restaurant: Restaurant) => void;
     //remove restaurant from favorite list
     removeFavorite: (restaurant: Restaurant) => void;
+    // initFav: (restaurants: Restaurant[]) => void;
+};
+
+const getInitialFav = () => {
+    let favsParse;
+    if (typeof window !== "undefined") {
+        const favs = localStorage?.getItem("favorites") || "";
+        console.log(JSON.parse(favs).state.favorites, "loggin");
+        favsParse = JSON.parse(favs).state.favorites;
+    }
+    return favsParse;
 };
 
 export const useStore = create<State & Action>()(
@@ -37,6 +49,12 @@ export const useStore = create<State & Action>()(
                 sort_by: "best_match",
             },
             restaurants: [],
+            favorites: getInitialFav(),
+            // initFav: (favlist: Restaurant[]) =>
+            //     set((state) => ({
+            //         ...state,
+            //         favorites: [...favlist],
+            //     })),
             updateTerm: (name: string, value: string) =>
                 set((state) => ({
                     ...state,
@@ -50,6 +68,11 @@ export const useStore = create<State & Action>()(
                             ? { ...val, favorite: true }
                             : val
                     ),
+                    //add restaurant to favorites array
+                    favorites: [
+                        ...state.favorites,
+                        { ...restaurant, favorite: true },
+                    ],
                 })),
 
             removeFavorite: (restaurant: Restaurant) =>
@@ -60,11 +83,17 @@ export const useStore = create<State & Action>()(
                             ? { ...val, favorite: false }
                             : val
                     ),
+                    //remove restaurant from favorites array
+                    favorites: state.favorites.filter(
+                        (val) => val.id !== restaurant.id
+                    ),
                 })),
         }),
         {
-            name: "restaurants",
-            partialize: (state) => ({ restaurants: state.restaurants }),
+            name: "favorites",
+            partialize: (state) => ({
+                favorites: state.favorites,
+            }),
         }
     )
 );

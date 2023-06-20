@@ -1,4 +1,7 @@
 "use client";
+import { useRef, useEffect, useState } from "react";
+import { useStore } from "../store";
+
 type Restaurant = {
     id: string;
     name: string;
@@ -8,23 +11,35 @@ type Restaurant = {
     display_address: string;
     favorite: boolean;
 };
-import { useRef } from "react";
-import { useStore } from "../store";
 
-function StoreInitializer({ restaurants }: { restaurants: Restaurant[] }) {
+function StoreInitializer({
+    restaurants,
+    favorites,
+}: {
+    restaurants: Restaurant[];
+    favorites: Restaurant[];
+}) {
+    // const [localFav, setLocalFav] = useState([]);
+
+    // useEffect(() => {
+    //     try {
+    //         const parseFav = localStorage?.getItem("favorites") || "";
+    //         setLocalFav(JSON.parse(parseFav).state.favorites);
+    //     } catch (e) {
+    //         console.log(e);
+    //     }
+    // }, []);
+
     const initialized = useRef(false);
     if (!initialized.current) {
         useStore.setState((state) => ({
             ...state,
             restaurants: [...restaurants],
+            // favorites: [...favorites],
         }));
         initialized.current = true;
-    } else if (initialized.current) {
-        useStore.setState((state) => ({
-            ...state,
-            restaurants: [...state.restaurants],
-        }));
     }
+
     return null;
 }
 export default StoreInitializer;

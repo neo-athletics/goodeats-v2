@@ -7,10 +7,7 @@ import { useStore } from "../store";
 // build a function to handle setting favorite restaurant and removing it from (favorite) list
 
 const Favorite = ({ restaurant }) => {
-    const { addFavorite, removeFavorite, restaurants } = useStore(
-        (state) => state
-    );
-    console.log(useStore.getState().restaurants[0], restaurants, restaurant);
+    const { addFavorite, removeFavorite } = useStore((state) => state);
     return (
         <div className={styles.favoriteContainer}>
             <FontAwesomeIcon

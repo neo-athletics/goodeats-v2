@@ -1,4 +1,6 @@
+import { useStore } from "../store";
 const formatRestaurantData = (restaurant) => {
+    console.log(useStore.getState().favorites, "favorite list");
     const {
         id,
         name,

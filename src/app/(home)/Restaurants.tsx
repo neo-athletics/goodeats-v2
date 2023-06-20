@@ -14,7 +14,6 @@ const Restaurants = async ({ searchParams }) => {
 
     let error;
     let data;
-
     let valBool = paramsVal.every((val) => val !== "");
 
     let keyBool = params.every((val) => requiredParams.includes(val));

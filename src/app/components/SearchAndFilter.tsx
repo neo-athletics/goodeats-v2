@@ -21,15 +21,12 @@ const SearchAndFilter = () => {
 
     const searchHandler = () => {
         const current = new URLSearchParams(searchParams.toString());
-        console.log(current.toString());
         //get query string if any delete
         for (const [key] of searchParams.entries()) {
-            console.log(key);
             current.delete(key);
         }
         //aggregate new query to pathname
         for (const key in state.keyterms) {
-            console.log(key, state.keyterms[key]);
             current.set(key, state.keyterms[key]);
         }
         // push new url
