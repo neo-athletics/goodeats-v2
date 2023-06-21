@@ -4,6 +4,7 @@ import Image from "next/image";
 import Favorite from "../components/Favorite";
 import styles from "../page.module.css";
 import { useStore } from "../store";
+
 const Restaurant = ({ errBool, data, error }) => {
     const { restaurants } = useStore((state) => state);
 
@@ -13,7 +14,11 @@ const Restaurant = ({ errBool, data, error }) => {
                 restaurants?.map((restaurant, index: number) => (
                     <div key={index} className={styles.box}>
                         <Image
-                            src={restaurant.image_url}
+                            src={
+                                restaurant?.image_url !== ""
+                                    ? restaurant?.image_url
+                                    : "/public/coffee_img.jpg"
+                            }
                             alt="restaurant food"
                             width={200}
                             height={200}

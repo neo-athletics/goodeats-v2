@@ -34,8 +34,9 @@ const getInitialFav = () => {
     let favsParse;
     if (typeof window !== "undefined") {
         const favs = localStorage?.getItem("favorites") || "";
-        console.log(JSON.parse(favs).state.favorites, "loggin");
-        favsParse = JSON.parse(favs).state.favorites;
+        if (favs != "") {
+            favsParse = JSON.parse(favs).state.favorites;
+        }
     }
     return favsParse;
 };
@@ -49,7 +50,7 @@ export const useStore = create<State & Action>()(
                 sort_by: "best_match",
             },
             restaurants: [],
-            favorites: getInitialFav(),
+            favorites: [],
             // initFav: (favlist: Restaurant[]) =>
             //     set((state) => ({
             //         ...state,
