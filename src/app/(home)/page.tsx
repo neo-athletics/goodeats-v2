@@ -1,6 +1,6 @@
 import styles from "../page.module.css";
 import SearchAndFilter from "../components/SearchAndFilter";
-import Restaurants from "./Restaurants";
+import HandleErrors from "./HandleErrors";
 import StoreInitializer from "../components/StoreInitializer";
 import { useStore } from "../store";
 export default function Home({ searchParams }) {
@@ -13,7 +13,7 @@ export default function Home({ searchParams }) {
             <SearchAndFilter />
 
             {/* @ts-expect-error Async Server Component */}
-            <Restaurants searchParams={searchParams} />
+            <HandleErrors searchParams={searchParams} />
         </main>
     );
 }

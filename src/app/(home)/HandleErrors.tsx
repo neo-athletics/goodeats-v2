@@ -3,7 +3,7 @@ import { useStore } from "../store";
 import { fetchRestaurants } from "../components/fetchRestaurantData";
 import Restaurant from "./Restaurant";
 
-const Restaurants = async ({ searchParams }) => {
+const HandleErrors = async ({ searchParams }) => {
     const { location, food, sort_by } = searchParams;
 
     const requiredParams = ["location", "food", "sort_by"];
@@ -42,4 +42,4 @@ const Restaurants = async ({ searchParams }) => {
     );
 };
 
-export default Restaurants;
+export default HandleErrors;

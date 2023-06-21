@@ -7,7 +7,7 @@ import { useStore } from "../store";
 
 const Restaurant = ({ errBool, data, error }) => {
     const { restaurants } = useStore((state) => state);
-
+    console.log(data);
     return (
         <div className={styles.results}>
             {restaurants.length > 0 ? (
