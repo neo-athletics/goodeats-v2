@@ -6,8 +6,9 @@ import styles from "../page.module.css";
 import { useStore } from "../store";
 
 const Restaurant = ({ errBool, data, error }) => {
-    const { restaurants } = useStore((state) => state);
-    console.log(data);
+    const restaurants = useStore.getState().restaurants;
+    //handle data.error when it is passed initially
+    console.log("res list", data);
     return (
         <div className={styles.results}>
             {restaurants.length > 0 ? (
@@ -27,13 +28,17 @@ const Restaurant = ({ errBool, data, error }) => {
                         <p>{restaurant.name}</p>
                         <p>rating: {restaurant.rating}</p>
                         <p>reviews {restaurant.review_count}</p>
-                        <p>{restaurant.display_address}</p>
+                        <p>
+                            {restaurant.display_address[0] +
+                                " " +
+                                restaurant.display_address[1]}
+                        </p>
                     </div>
                 ))
             ) : errBool ? (
                 <p>{error}</p>
             ) : (
-                <p>{data?.error}</p>
+                <p>{data?.error}error</p>
             )}
         </div>
     );

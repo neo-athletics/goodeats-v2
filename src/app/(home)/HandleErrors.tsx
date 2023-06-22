@@ -2,6 +2,7 @@
 import { useStore } from "../store";
 import { fetchRestaurants } from "../components/fetchRestaurantData";
 import Restaurant from "./Restaurant";
+import StoreInitializer from "../components/StoreInitializer";
 
 const HandleErrors = async ({ searchParams }) => {
     const { location, food, sort_by } = searchParams;
@@ -22,7 +23,7 @@ const HandleErrors = async ({ searchParams }) => {
     //execute fetch function here
     if (params.length === 3 && valBool && keyBool) {
         data = await fetchRestaurants(location, food, sort_by);
-        if (Array.isArray(data) && data.length) {
+        if (Array.isArray(data) && data.length > 0) {
             useStore.setState({ restaurants: [...data] });
         }
         errBool = false;
@@ -35,8 +36,11 @@ const HandleErrors = async ({ searchParams }) => {
         errBool = true;
     }
 
+    console.log(useStore.getState().restaurants, "getting");
+
     return (
         <div>
+            <StoreInitializer restaurants={useStore.getState().restaurants} />
             <Restaurant data={data} errBool={errBool} error={error} />
         </div>
     );

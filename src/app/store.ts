@@ -27,18 +27,6 @@ type Action = {
     addFavorite: (restaurant: Restaurant) => void;
     //remove restaurant from favorite list
     removeFavorite: (restaurant: Restaurant) => void;
-    // initFav: (restaurants: Restaurant[]) => void;
-};
-
-const getInitialFav = () => {
-    let favsParse;
-    if (typeof window !== "undefined") {
-        const favs = localStorage?.getItem("favorites") || "";
-        if (favs != "") {
-            favsParse = JSON.parse(favs).state.favorites;
-        }
-    }
-    return favsParse;
 };
 
 export const useStore = create<State & Action>()(
@@ -51,11 +39,7 @@ export const useStore = create<State & Action>()(
             },
             restaurants: [],
             favorites: [],
-            // initFav: (favlist: Restaurant[]) =>
-            //     set((state) => ({
-            //         ...state,
-            //         favorites: [...favlist],
-            //     })),
+
             updateTerm: (name: string, value: string) =>
                 set((state) => ({
                     ...state,

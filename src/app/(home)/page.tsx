@@ -5,11 +5,9 @@ import StoreInitializer from "../components/StoreInitializer";
 import { useStore } from "../store";
 export default function Home({ searchParams }) {
     const restaurants = useStore.getState().restaurants;
-    const favorites = useStore.getState().favorites;
-    console.log(useStore.getState().favorites, "init", restaurants[0]);
     return (
         <main className={styles.main}>
-            <StoreInitializer restaurants={restaurants} favorites={favorites} />
+            {/* <StoreInitializer restaurants={restaurants} /> */}
             <SearchAndFilter />
 
             {/* @ts-expect-error Async Server Component */}

@@ -12,19 +12,12 @@ type Restaurant = {
     favorite: boolean;
 };
 
-function StoreInitializer({
-    restaurants,
-    favorites,
-}: {
-    restaurants: Restaurant[];
-    favorites: Restaurant[];
-}) {
+function StoreInitializer({ restaurants }: { restaurants: Restaurant[] }) {
     const initialized = useRef(false);
     if (!initialized.current) {
         useStore.setState((state) => ({
             ...state,
             restaurants: [...restaurants],
-            // favorites: [...favorites],
         }));
         initialized.current = true;
     }
