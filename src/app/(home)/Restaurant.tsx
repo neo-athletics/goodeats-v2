@@ -8,17 +8,17 @@ import { useStore } from "../store";
 const Restaurant = ({ errBool, data, error }) => {
     const restaurants = useStore.getState().restaurants;
     //handle data.error when it is passed initially
-    console.log("res list", data);
+    console.log("restaurant comp list", data);
     return (
         <div className={styles.results}>
-            {restaurants.length > 0 ? (
+            {restaurants.length > 0 && data !== "undefined" ? (
                 restaurants?.map((restaurant, index: number) => (
                     <div key={index} className={styles.box}>
                         <Image
                             src={
                                 restaurant?.image_url !== ""
                                     ? restaurant?.image_url
-                                    : "/public/coffee_img.jpg"
+                                    : "/../public/coffee_img.jpg"
                             }
                             alt="restaurant food"
                             width={200}
@@ -38,7 +38,7 @@ const Restaurant = ({ errBool, data, error }) => {
             ) : errBool ? (
                 <p>{error}</p>
             ) : (
-                <p>{data?.error}error</p>
+                <p>{data?.error}</p>
             )}
         </div>
     );

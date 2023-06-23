@@ -11,6 +11,8 @@ const SearchAndFilter = () => {
     const { location, food, sort_by } = useStore((state) => state.keyterms);
     const state = useStore();
 
+    console.log(location, food, sort_by, "searching");
+
     const validate = () => {
         if (location === "" || food === "") {
             return false;

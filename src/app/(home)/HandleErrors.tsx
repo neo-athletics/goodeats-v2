@@ -4,6 +4,15 @@ import { fetchRestaurants } from "../components/fetchRestaurantData";
 import Restaurant from "./Restaurant";
 import StoreInitializer from "../components/StoreInitializer";
 
+/*
+what needs to be fixed?
+
+rename component
+handle searchparams error handling
+find a way to make make fetching results, handling search params and making api call as one. or keep it as separation of concern
+
+*/
+
 const HandleErrors = async ({ searchParams }) => {
     const { location, food, sort_by } = searchParams;
 
@@ -22,9 +31,12 @@ const HandleErrors = async ({ searchParams }) => {
 
     //execute fetch function here
     if (params.length === 3 && valBool && keyBool) {
+        //check params before making api call
         data = await fetchRestaurants(location, food, sort_by);
+        console.log("cap");
         if (Array.isArray(data) && data.length > 0) {
             useStore.setState({ restaurants: [...data] });
+            console.log("data logging...");
         }
         errBool = false;
     } else if (
@@ -34,9 +46,10 @@ const HandleErrors = async ({ searchParams }) => {
     ) {
         error = "please provide the necessary params";
         errBool = true;
+        console.log("error log");
     }
 
-    console.log(useStore.getState().restaurants, "getting");
+    console.log(useStore.getState().restaurants[0], "getting");
 
     return (
         <div>

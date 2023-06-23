@@ -1,23 +1,3 @@
-const formatRestaurantData = (restaurant) => {
-    const {
-        id,
-        name,
-        image_url,
-        rating,
-        review_count,
-        location: { display_address },
-    } = restaurant;
-    return {
-        id,
-        name,
-        image_url,
-        rating,
-        review_count,
-        display_address,
-        favorite: false,
-    };
-};
-
 export const fetchRestaurants = async (location, food, sort_by) => {
     try {
         const res = await fetch(
@@ -30,9 +10,26 @@ export const fetchRestaurants = async (location, food, sort_by) => {
         }
 
         const yelpData = await res.json();
-        return yelpData.businesses?.map((business) =>
-            formatRestaurantData(business)
-        );
+        return yelpData.businesses?.map((business) => {
+            const {
+                id,
+                name,
+                image_url,
+                rating,
+                review_count,
+                location: { display_address },
+            } = business;
+
+            return {
+                id,
+                name,
+                image_url,
+                rating,
+                review_count,
+                display_address,
+                favorite: false,
+            };
+        });
     } catch (error) {
         console.log(error, "error here");
         return error;
