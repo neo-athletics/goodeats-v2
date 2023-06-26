@@ -6,9 +6,8 @@ import styles from "../page.module.css";
 import { useStore } from "../store";
 
 const Restaurant = ({ errBool, data, error }) => {
-    const restaurants = useStore.getState().restaurants;
-    //handle data.error when it is passed initially
-    console.log("restaurant comp list", data);
+    const restaurants = useStore().restaurants;
+
     return (
         <div className={styles.results}>
             {restaurants.length > 0 && data !== "undefined" ? (

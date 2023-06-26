@@ -1,5 +1,4 @@
 "use client";
-import { useRef } from "react";
 import { useStore } from "../store";
 
 type Restaurant = {
@@ -13,14 +12,11 @@ type Restaurant = {
 };
 
 function StoreInitializer({ restaurants }: { restaurants: Restaurant[] }) {
-    const initialized = useRef(false);
-    if (!initialized.current) {
-        useStore.setState((state) => ({
-            ...state,
-            restaurants: [...restaurants],
-        }));
-        initialized.current = true;
-    }
+    // might be able to loop through restaurants and update property favorite based on local storage
+    useStore.setState((state) => ({
+        ...state,
+        restaurants: [...restaurants],
+    }));
 
     return null;
 }

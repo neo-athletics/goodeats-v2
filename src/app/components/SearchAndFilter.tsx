@@ -8,9 +8,8 @@ const SearchAndFilter = () => {
     const pathname = usePathname();
     const searchParams = useSearchParams();
 
-    const { location, food, sort_by } = useStore((state) => state.keyterms);
     const state = useStore();
-
+    const { location, food, sort_by } = state.keyterms;
     console.log(location, food, sort_by, "searching");
 
     const validate = () => {
@@ -21,20 +20,33 @@ const SearchAndFilter = () => {
         return true;
     };
 
+    const handleChange = (e) => {
+        console.log("loc", location, "food", food);
+        //give user an error message to provide necessary values
+        if (state.restaurants.length > 0) {
+            //something within is causing rendering issues
+            state.updateTerm(e.target.name, e.target.value);
+            const current = new URLSearchParams(searchParams.toString());
+            console.log(current.size, "filter");
+            current.set(e.target.name, e.target.value);
+            router.push(`${pathname}?${current.toString()}`);
+        }
+    };
+
     const searchHandler = () => {
-        const current = new URLSearchParams(searchParams.toString());
-        //get query string if any delete
-        for (const [key] of searchParams.entries()) {
-            current.delete(key);
-        }
-        //aggregate new query to pathname
-        for (const key in state.keyterms) {
-            current.set(key, state.keyterms[key]);
-        }
-        // push new url
-        router.push(`${pathname}?${current.toString()}`);
-        // router.refresh();
-        console.log(current.toString(), "string");
+        // const current = new URLSearchParams(searchParams.toString());
+        // //get query string if any delete
+        // for (const [key] of searchParams.entries()) {
+        //     current.delete(key);
+        // }
+        // //aggregate new query to pathname
+        // for (const key in state.keyterms) {
+        //     current.set(key, state.keyterms[key]);
+        // }
+        // // push new url
+        // router.push(`${pathname}?${current.toString()}`);
+        // // router.refresh();
+        // console.log(current.toString(), "string");
     };
 
     return (
@@ -64,13 +76,11 @@ const SearchAndFilter = () => {
                     value={food}
                     required={true}
                 />
-
+                {/* onchange filter should make a request to selected option apply the same logic from search handler to onchange*/}
                 <select
                     value={sort_by}
                     name="sort_by"
-                    onChange={(e) =>
-                        state.updateTerm(e.target.name, e.target.value)
-                    }
+                    onChange={(e) => handleChange(e)}
                 >
                     <option value="best_match">Best Match</option>
                     <option value="rating">Rating</option>
