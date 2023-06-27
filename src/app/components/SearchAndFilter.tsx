@@ -29,6 +29,7 @@ const SearchAndFilter = () => {
             const current = new URLSearchParams(searchParams.toString());
             console.log(current.size, "filter");
             current.set(e.target.name, e.target.value);
+            console.log(current.toString(), "string----");
             router.push(`${pathname}?${current.toString()}`);
         }
     };

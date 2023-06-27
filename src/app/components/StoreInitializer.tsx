@@ -1,5 +1,6 @@
 "use client";
 import { useStore } from "../store";
+import { useEffect } from "react";
 
 type Restaurant = {
     id: string;
@@ -12,11 +13,13 @@ type Restaurant = {
 };
 
 function StoreInitializer({ restaurants }: { restaurants: Restaurant[] }) {
-    // might be able to loop through restaurants and update property favorite based on local storage
-    useStore.setState((state) => ({
-        ...state,
-        restaurants: [...restaurants],
-    }));
+    useEffect(() => {
+        // might be able to loop through restaurants and update property favorite based on local storage
+        useStore.setState((state) => ({
+            ...state,
+            restaurants: [...restaurants],
+        }));
+    }, [restaurants]);
 
     return null;
 }
