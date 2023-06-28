@@ -35,19 +35,19 @@ const SearchAndFilter = () => {
     };
 
     const searchHandler = () => {
-        // const current = new URLSearchParams(searchParams.toString());
-        // //get query string if any delete
-        // for (const [key] of searchParams.entries()) {
-        //     current.delete(key);
-        // }
-        // //aggregate new query to pathname
-        // for (const key in state.keyterms) {
-        //     current.set(key, state.keyterms[key]);
-        // }
-        // // push new url
-        // router.push(`${pathname}?${current.toString()}`);
-        // // router.refresh();
-        // console.log(current.toString(), "string");
+        const current = new URLSearchParams(searchParams.toString());
+        //get query string if any delete
+        for (const [key] of searchParams.entries()) {
+            current.delete(key);
+        }
+        //aggregate new query to pathname
+        for (const key in state.keyterms) {
+            current.set(key, state.keyterms[key]);
+        }
+        // push new url
+        router.push(`${pathname}?${current.toString()}`);
+        // router.refresh();
+        console.log(current.toString(), "string");
     };
 
     return (
