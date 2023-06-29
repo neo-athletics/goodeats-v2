@@ -12,14 +12,22 @@ type Restaurant = {
     favorite: boolean;
 };
 
-function StoreInitializer({ restaurants }: { restaurants: Restaurant[] }) {
+function StoreInitializer({
+    restaurants,
+    searchParams,
+}: {
+    restaurants: Restaurant[];
+    searchParams: { location: string; food: string; sort_by: string };
+}) {
+    console.log(useStore.getState().keyterms, "keys");
     useEffect(() => {
         // might be able to loop through restaurants and update property favorite based on local storage
         useStore.setState((state) => ({
             ...state,
             restaurants: [...restaurants],
+            keyterms: { ...state.keyterms, ...searchParams },
         }));
-    }, [restaurants]);
+    }, [restaurants, searchParams]);
 
     return null;
 }

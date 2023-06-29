@@ -27,7 +27,12 @@ const HandleErrors = async ({ searchParams }) => {
         console.log("cap", location, food, sort_by);
         //check if state is being updated
         if (Array.isArray(data) && data.length > 0) {
-            useStore.setState({ restaurants: [...data] });
+            useStore.setState((state) => ({
+                ...state,
+                restaurants: [...data],
+                keyterms: { location, food, sort_by },
+            }));
+
             console.log("data logging...");
         }
         errBool = false;
@@ -45,7 +50,10 @@ const HandleErrors = async ({ searchParams }) => {
 
     return (
         <div>
-            <StoreInitializer restaurants={useStore.getState().restaurants} />
+            <StoreInitializer
+                restaurants={useStore.getState().restaurants}
+                searchParams={searchParams}
+            />
             <Restaurant data={data} errBool={errBool} error={error} />
         </div>
     );

@@ -10,8 +10,14 @@ const SearchAndFilter = () => {
 
     const state = useStore();
     const { location, food, sort_by } = state.keyterms;
-    console.log(location, food, sort_by, "searching");
 
+    console.log(location, food, sort_by, "searching");
+    //check and update search params
+    /*Check if data and location,food,sort_by state/params are present go along with the state of the data. 
+    if data is not present clear params 
+    else if data is present then update params to necessary values or state of keyterms  */
+    const current = new URLSearchParams(searchParams.toString());
+    console.log(current, "params");
     const validate = () => {
         if (location === "" || food === "") {
             return false;
@@ -36,7 +42,7 @@ const SearchAndFilter = () => {
 
     const searchHandler = () => {
         const current = new URLSearchParams(searchParams.toString());
-        //get query string if any delete
+        // //get query string if any delete
         for (const [key] of searchParams.entries()) {
             current.delete(key);
         }
