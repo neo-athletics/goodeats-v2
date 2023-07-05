@@ -8,6 +8,7 @@ import { useStore } from "../store";
 const Restaurant = ({ errBool, data, error }) => {
     const restaurants = useStore().restaurants;
     // initial value will be undefined when rendered
+    console.log(restaurants);
     return (
         <div className={styles.results}>
             {

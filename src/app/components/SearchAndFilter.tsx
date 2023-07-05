@@ -1,6 +1,6 @@
 "use client";
 import { useStore } from "../store";
-import React from "react";
+import React, { useEffect, useMemo } from "react";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 
 const SearchAndFilter = () => {
@@ -10,14 +10,37 @@ const SearchAndFilter = () => {
 
     const state = useStore();
     const { location, food, sort_by } = state.keyterms;
-
-    console.log(location, food, sort_by, "searching");
+    //on page load
     //check and update search params
     /*Check if data and location,food,sort_by state/params are present go along with the state of the data. 
     if data is not present clear params 
     else if data is present then update params to necessary values or state of keyterms  */
-    const current = new URLSearchParams(searchParams.toString());
-    console.log(current, "params");
+
+    console.log(location, food, sort_by, "searching");
+
+    // const current = useMemo(
+    //     () => new URLSearchParams(searchParams.toString()),
+    //     [searchParams]
+    // );
+
+    useEffect(() => {
+        const current = new URLSearchParams(searchParams.toString());
+        if (state.restaurants.length > 0) {
+            //check params if they are blank for location and food and if they are set them and only if restaurant data is present
+            console.log(state.keyterms, "init");
+            if (current.size < 3) {
+                for (const key in state.keyterms) {
+                    console.log(state.keyterms[key], "ki");
+                    current.set(key, state.keyterms[key]);
+                }
+                router.push(`${pathname}?${current.toString()}`);
+            }
+        }
+        for (const [key, value] of searchParams.entries()) {
+            console.log(key, value, "params");
+        }
+    });
+
     const validate = () => {
         if (location === "" || food === "") {
             return false;
@@ -27,27 +50,33 @@ const SearchAndFilter = () => {
     };
 
     const handleChange = (e) => {
+        const current = new URLSearchParams(searchParams.toString());
         console.log("loc", location, "food", food);
         //give user an error message to provide necessary values
-        if (state.restaurants.length > 0) {
-            //something within is causing rendering issues
-            state.updateTerm(e.target.name, e.target.value);
-            const current = new URLSearchParams(searchParams.toString());
-            console.log(current.size, "filter");
-            current.set(e.target.name, e.target.value);
-            console.log(current.toString(), "string----");
-            router.push(`${pathname}?${current.toString()}`);
+        console.log(state.keyterms, "before");
+        state.updateTerm(e.target.name, e.target.value);
+
+        for (const key in state.keyterms) {
+            if (key === e.target.name) {
+                console.log(key, e.target.value);
+                current.set(e.target.name, e.target.value);
+            } else {
+                current.set(key, state.keyterms[key]);
+            }
         }
+        router.push(`${pathname}?${current.toString()}`);
     };
 
     const searchHandler = () => {
         const current = new URLSearchParams(searchParams.toString());
+
         // //get query string if any delete
         for (const [key] of searchParams.entries()) {
             current.delete(key);
         }
         //aggregate new query to pathname
         for (const key in state.keyterms) {
+            console.log(state.keyterms[key], "ki-------");
             current.set(key, state.keyterms[key]);
         }
         // push new url
@@ -83,16 +112,18 @@ const SearchAndFilter = () => {
                     value={food}
                     required={true}
                 />
-                {/* onchange filter should make a request to selected option apply the same logic from search handler to onchange*/}
-                <select
-                    value={sort_by}
-                    name="sort_by"
-                    onChange={(e) => handleChange(e)}
-                >
-                    <option value="best_match">Best Match</option>
-                    <option value="rating">Rating</option>
-                    <option value="review_count">Review</option>
-                </select>
+                {/* initial search has a blank value for select(sort_by) */}
+                {state.restaurants.length > 0 && (
+                    <select
+                        value={sort_by}
+                        name="sort_by"
+                        onChange={(e) => handleChange(e)}
+                    >
+                        <option value="best_match">Best Match</option>
+                        <option value="rating">Rating</option>
+                        <option value="review_count">Review</option>
+                    </select>
+                )}
                 <button
                     disabled={!validate() ? true : false}
                     onClick={searchHandler}
