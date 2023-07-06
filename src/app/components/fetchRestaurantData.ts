@@ -1,5 +1,7 @@
+import { useStore } from "../store";
 export const fetchRestaurants = async (location, food, sort_by) => {
     //find a way to get local storage value on server side component
+    console.log(useStore.getState().favorites, "fetch favorites");
     try {
         const res = await fetch(
             `http://localhost:3000/api/restaurants/?location=${location}&term=${food}&sort_by=${sort_by}`
