@@ -27,6 +27,7 @@ type Action = {
     addFavorite: (restaurant: Restaurant) => void;
     //remove restaurant from favorite list
     removeFavorite: (restaurant: Restaurant) => void;
+    mergeFavandRes: (favorite: Restaurant[]) => void;
 };
 
 export const useStore = create<State & Action>()(
@@ -72,6 +73,20 @@ export const useStore = create<State & Action>()(
                     favorites: state.favorites.filter(
                         (val) => val.id !== restaurant.id
                     ),
+                })),
+            mergeFavandRes: (favorite: Restaurant[]) =>
+                set((state) => ({
+                    ...state,
+                    restaurants: state.restaurants.map((restaurant) => {
+                        const favoriteRes = favorite.find(
+                            (val) => val.id === restaurant.id
+                        );
+
+                        if (favoriteRes === undefined) {
+                            return restaurant;
+                        }
+                        return favoriteRes;
+                    }),
                 })),
         }),
         {
