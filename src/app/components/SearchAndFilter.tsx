@@ -50,6 +50,7 @@ const SearchAndFilter = () => {
                     current.set(key, state.keyterms[key]);
                 }
             }
+            //makes request
             router.push(`${pathname}?${current.toString()}`);
         } else {
             //handle error message here

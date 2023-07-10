@@ -20,6 +20,7 @@ function StoreInitializer({
     searchParams: { location: string; food: string; sort_by: string };
 }) {
     console.log(useStore.getState().keyterms, "keys");
+    const { mergeFavandRes } = useStore((state) => state);
     useEffect(() => {
         // might be able to loop through restaurants and update property favorite based on local storage
         useStore.setState((state) => ({
@@ -27,7 +28,15 @@ function StoreInitializer({
             restaurants: [...restaurants],
             keyterms: { ...state.keyterms, ...searchParams },
         }));
-    }, [restaurants, searchParams]);
+        if (window != undefined) {
+            const favorites = JSON.parse(
+                localStorage.getItem("favorites") || ""
+            ).state.favorites;
+            //------ causing maximum re-render------//
+            //move this logic to the action in store to update restaurant array
+            mergeFavandRes(favorites);
+        }
+    }, [restaurants, searchParams, mergeFavandRes]);
 
     return null;
 }

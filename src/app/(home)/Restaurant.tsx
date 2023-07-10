@@ -15,14 +15,15 @@ const Restaurant = ({ errBool, data, error }) => {
     const { mergeFavandRes } = useStore((state) => state);
 
     useEffect(() => {
-        if (window != undefined) {
-            const favorites = JSON.parse(localStorage.getItem("favorites"))
-                .state.favorites;
-            //------ causing maximum re-render------//
-            //move this logic to the action in store to update restaurant array
-            mergeFavandRes(favorites);
-        }
-    }, [window]);
+        // if (window != undefined) {
+        //     const favorites = JSON.parse(
+        //         localStorage.getItem("favorites") || ""
+        //     ).state.favorites;
+        //     //------ causing maximum re-render------//
+        //     //move this logic to the action in store to update restaurant array
+        //     mergeFavandRes(favorites);
+        // }
+    }, []);
     const restaurants = useStore((state) => state.restaurants);
     console.log(restaurants);
     // const restaurants = useStore().restaurants;
