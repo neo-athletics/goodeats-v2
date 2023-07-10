@@ -6,24 +6,6 @@ import styles from "../page.module.css";
 import { useStore } from "../store";
 
 const Restaurant = ({ errBool, data, error }) => {
-    //compare favorite list from restaurants being rendered to init favorite value/state
-    //get local storage state and compare values and change state if restaurant is in favorite list
-
-    //run restaurant array through the above logic to change its init properties
-    //set state of store restaurant array
-    //update restaurant array with data ?
-    const { mergeFavandRes } = useStore((state) => state);
-
-    useEffect(() => {
-        // if (window != undefined) {
-        //     const favorites = JSON.parse(
-        //         localStorage.getItem("favorites") || ""
-        //     ).state.favorites;
-        //     //------ causing maximum re-render------//
-        //     //move this logic to the action in store to update restaurant array
-        //     mergeFavandRes(favorites);
-        // }
-    }, []);
     const restaurants = useStore((state) => state.restaurants);
     console.log(restaurants);
     // const restaurants = useStore().restaurants;

@@ -109,17 +109,17 @@ const SearchAndFilter = () => {
                     required={true}
                 />
                 {/* initial search has a blank value for select(sort_by) */}
-                {state.restaurants.length > 0 && (
-                    <select
-                        value={sort_by}
-                        name="sort_by"
-                        onChange={(e) => handleChange(e)}
-                    >
-                        <option value="best_match">Best Match</option>
-                        <option value="rating">Rating</option>
-                        <option value="review_count">Review</option>
-                    </select>
-                )}
+
+                <select
+                    value={sort_by}
+                    name="sort_by"
+                    onChange={(e) => handleChange(e)}
+                >
+                    <option value="best_match">Best Match</option>
+                    <option value="rating">Rating</option>
+                    <option value="review_count">Review</option>
+                </select>
+
                 <button
                     disabled={!validate() ? true : false}
                     onClick={searchHandler}
