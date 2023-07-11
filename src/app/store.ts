@@ -9,6 +9,12 @@ type State = {
 
     restaurants: Restaurant[];
     favorites: Restaurant[];
+    attendedRestaurants: RestaurantRef[];
+};
+
+type RestaurantRef = {
+    id: string;
+    attended: boolean;
 };
 
 type Restaurant = {
@@ -28,6 +34,8 @@ type Action = {
     //remove restaurant from favorite list
     removeFavorite: (restaurant: Restaurant) => void;
     mergeFavandRes: (favorite: Restaurant[]) => void;
+    addToAttended: (restaurant: Restaurant) => void;
+    removeFromAttended: (restaurant: Restaurant) => void;
 };
 
 export const useStore = create<State & Action>()(
@@ -40,6 +48,7 @@ export const useStore = create<State & Action>()(
             },
             restaurants: [],
             favorites: [],
+            attendedRestaurants: [],
 
             updateTerm: (name: string, value: string) =>
                 set((state) => ({
@@ -87,6 +96,22 @@ export const useStore = create<State & Action>()(
                         }
                         return favoriteRes;
                     }),
+                })),
+
+            addToAttended: (restaurant: Restaurant) =>
+                set((state) => ({
+                    ...state,
+                    attendedRestaurants: [
+                        ...state.attendedRestaurants,
+                        { id: restaurant.id, attended: true },
+                    ],
+                })),
+            removeFromAttended: (restaurant: Restaurant) =>
+                set((state) => ({
+                    ...state,
+                    attendedRestaurants: state.attendedRestaurants.filter(
+                        (value) => value.id != restaurant.id
+                    ),
                 })),
         }),
         {

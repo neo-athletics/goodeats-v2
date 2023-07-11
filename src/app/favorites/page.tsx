@@ -3,17 +3,20 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Favorite from "../components/Favorite";
 import styles from "../page.module.css";
+import { useStore } from "../store";
+import { faCheck } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const Favorites = () => {
-    const [favorites, setFavorites] = useState([]);
-    useEffect(() => {
-        const favs = JSON.parse(localStorage.getItem("favorites") || "").state
-            .favorites;
-        console.log(favs);
-        setFavorites(favs);
-    }, []);
+    const {
+        favorites,
+        attendedRestaurants,
+        addToAttended,
+        removeFromAttended,
+    } = useStore((state) => state);
+
     return (
-        <div className={styles.main}>
+        <div className={styles.results}>
             Favorites
             {favorites.length > 0 && (
                 <>
@@ -30,6 +33,17 @@ const Favorites = () => {
                                 height={200}
                             />
                             <Favorite restaurant={restaurant} />
+                            <FontAwesomeIcon
+                                icon={faCheck}
+                                size="xl"
+                                onClick={() =>
+                                    attendedRestaurants.some(
+                                        (val) => restaurant.id != val.id
+                                    )
+                                        ? addToAttended(restaurant)
+                                        : removeFromAttended(restaurant)
+                                }
+                            />
                             <p>{restaurant.name}</p>
                             <p>rating: {restaurant.rating}</p>
                             <p>reviews {restaurant.review_count}</p>
