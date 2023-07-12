@@ -1,13 +1,15 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Image from "next/image";
 import Favorite from "../components/Favorite";
 import styles from "../page.module.css";
 import { useStore } from "../store";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { motion } from "framer-motion";
 
 const Favorites = () => {
+    const constraintsRef = useRef(null);
     const {
         favorites,
         addToAttended,
@@ -26,12 +28,18 @@ const Favorites = () => {
         removeFromAttended(restaurant);
     };
     return (
-        <div className={styles.results}>
+        <div className={styles.favoriteList} ref={constraintsRef}>
             Favorites
             {favorites.length > 0 && (
                 <>
                     {favorites?.map((restaurant) => (
-                        <div key={restaurant.id} className={styles.box}>
+                        <motion.div
+                            drag="y"
+                            whileDrag={{ scale: 1.1 }}
+                            key={restaurant.id}
+                            className={styles.favoriteItem}
+                            dragConstraints={constraintsRef}
+                        >
                             <Image
                                 src={
                                     restaurant?.image_url !== ""
@@ -40,7 +48,7 @@ const Favorites = () => {
                                 }
                                 alt="restaurant food"
                                 width={200}
-                                height={200}
+                                height={150}
                             />
                             <Favorite restaurant={restaurant} />
                             <FontAwesomeIcon
@@ -69,7 +77,7 @@ const Favorites = () => {
                                     " " +
                                     restaurant.display_address[1]}
                             </p>
-                        </div>
+                        </motion.div>
                     ))}
                 </>
             )}
