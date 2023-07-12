@@ -34,3 +34,9 @@
     color: #dadada;
     transition: color 0.3s ease-out;
 }
+.attended {
+    color: green;
+}
+.notAttended {
+    color: black;
+}

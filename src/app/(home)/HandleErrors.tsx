@@ -46,8 +46,6 @@ const HandleErrors = async ({ searchParams }) => {
         console.log("error log");
     }
 
-    console.log(useStore.getState().restaurants[0], "getting");
-
     return (
         <div>
             <StoreInitializer

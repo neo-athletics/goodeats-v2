@@ -10,11 +10,21 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 const Favorites = () => {
     const {
         favorites,
-        attendedRestaurants,
         addToAttended,
         removeFromAttended,
+        attendedRestaurants,
     } = useStore((state) => state);
 
+    console.log(attendedRestaurants);
+    const handleTruth = (restaurant) => {
+        console.log("truth");
+
+        addToAttended(restaurant);
+    };
+    const handleFalse = (restaurant) => {
+        console.log("false");
+        removeFromAttended(restaurant);
+    };
     return (
         <div className={styles.results}>
             Favorites
@@ -36,12 +46,19 @@ const Favorites = () => {
                             <FontAwesomeIcon
                                 icon={faCheck}
                                 size="xl"
+                                className={
+                                    attendedRestaurants.find(
+                                        (val) => restaurant.id === val.id
+                                    ) != undefined
+                                        ? styles.attended
+                                        : styles.notAttended
+                                }
                                 onClick={() =>
-                                    attendedRestaurants.some(
-                                        (val) => restaurant.id != val.id
-                                    )
-                                        ? addToAttended(restaurant)
-                                        : removeFromAttended(restaurant)
+                                    attendedRestaurants.find(
+                                        (val) => restaurant.id === val.id
+                                    ) === undefined
+                                        ? handleTruth(restaurant)
+                                        : handleFalse(restaurant)
                                 }
                             />
                             <p>{restaurant.name}</p>

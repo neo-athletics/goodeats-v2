@@ -14,7 +14,6 @@ type State = {
 
 type RestaurantRef = {
     id: string;
-    attended: boolean;
 };
 
 type Restaurant = {
@@ -103,14 +102,14 @@ export const useStore = create<State & Action>()(
                     ...state,
                     attendedRestaurants: [
                         ...state.attendedRestaurants,
-                        { id: restaurant.id, attended: true },
+                        { id: restaurant.id },
                     ],
                 })),
             removeFromAttended: (restaurant: Restaurant) =>
                 set((state) => ({
                     ...state,
                     attendedRestaurants: state.attendedRestaurants.filter(
-                        (value) => value.id != restaurant.id
+                        (value) => value.id !== restaurant.id
                     ),
                 })),
         }),
@@ -118,6 +117,7 @@ export const useStore = create<State & Action>()(
             name: "favorites",
             partialize: (state) => ({
                 favorites: state.favorites,
+                attendedRestaurants: state.attendedRestaurants,
             }),
         }
     )
