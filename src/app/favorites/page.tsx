@@ -1,12 +1,12 @@
 "use client";
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Favorite from "../components/Favorite";
 import styles from "../page.module.css";
 import { useStore } from "../store";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { motion, Reorder } from "framer-motion";
+import { Reorder } from "framer-motion";
 
 const Favorites = () => {
     const {
@@ -30,7 +30,7 @@ const Favorites = () => {
         console.log("false");
         removeFromAttended(restaurant);
     };
-    //add and removing favorite is not working with implemetation of onReorder prop
+
     return (
         <div className={styles.favoriteList}>
             Favorites
