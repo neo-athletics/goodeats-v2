@@ -4,9 +4,10 @@ import Image from "next/image";
 import Favorite from "../components/Favorite";
 import styles from "../page.module.css";
 import { useStore } from "../store";
-import { faCheck } from "@fortawesome/free-solid-svg-icons";
+import { faCheck, faGripVertical } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Reorder } from "framer-motion";
+import CalculateRating from "../components/CalculateRating";
 
 const Favorites = () => {
     const {
@@ -18,6 +19,7 @@ const Favorites = () => {
     const [favs, setFavs] = useState(favorites);
     useEffect(() => {
         setFavs(favorites);
+        //list goes back to original order once navigated away from page
     }, [favorites]);
 
     console.log(attendedRestaurants);
@@ -32,9 +34,14 @@ const Favorites = () => {
     };
 
     return (
-        <div className={styles.favoriteList}>
+        <div>
             Favorites
-            <Reorder.Group axis="y" onReorder={setFavs} values={favs}>
+            <Reorder.Group
+                axis="y"
+                onReorder={setFavs}
+                values={favs}
+                className={styles.favoriteList}
+            >
                 {favs.length > 0 && (
                     <>
                         {favs?.map((restaurant) => (
@@ -43,43 +50,56 @@ const Favorites = () => {
                                 key={restaurant.id}
                                 className={styles.favoriteItem}
                             >
-                                <Image
-                                    src={
-                                        restaurant?.image_url !== ""
-                                            ? restaurant?.image_url
-                                            : "/../public/coffee_img.jpg"
-                                    }
-                                    alt="restaurant food"
-                                    width={200}
-                                    height={150}
-                                />
-                                <Favorite restaurant={restaurant} />
-                                <FontAwesomeIcon
-                                    icon={faCheck}
-                                    size="xl"
-                                    className={
-                                        attendedRestaurants.find(
-                                            (val) => restaurant.id === val.id
-                                        ) != undefined
-                                            ? styles.attended
-                                            : styles.notAttended
-                                    }
-                                    onClick={() =>
-                                        attendedRestaurants.find(
-                                            (val) => restaurant.id === val.id
-                                        ) === undefined
-                                            ? handleTruth(restaurant)
-                                            : handleFalse(restaurant)
-                                    }
-                                />
-                                <p>{restaurant.name}</p>
+                                <div>
+                                    <p>{restaurant.name}</p>
+                                    <Image
+                                        src={
+                                            restaurant?.image_url !== ""
+                                                ? restaurant?.image_url
+                                                : "/../public/coffee_img.jpg"
+                                        }
+                                        alt="restaurant food"
+                                        width={200}
+                                        height={150}
+                                    />
+                                </div>
+
+                                {/* convert the rating from  integer to star */}
                                 <p>rating: {restaurant.rating}</p>
+                                <CalculateRating rating={restaurant.rating} />
                                 <p>reviews {restaurant.review_count}</p>
                                 <p>
                                     {restaurant.display_address[0] +
                                         " " +
                                         restaurant.display_address[1]}
                                 </p>
+                                <div>
+                                    <Favorite restaurant={restaurant} />
+                                    <FontAwesomeIcon
+                                        icon={faCheck}
+                                        size="xl"
+                                        className={
+                                            attendedRestaurants.find(
+                                                (val) =>
+                                                    restaurant.id === val.id
+                                            ) != undefined
+                                                ? styles.attended
+                                                : styles.notAttended
+                                        }
+                                        onClick={() =>
+                                            attendedRestaurants.find(
+                                                (val) =>
+                                                    restaurant.id === val.id
+                                            ) === undefined
+                                                ? handleTruth(restaurant)
+                                                : handleFalse(restaurant)
+                                        }
+                                    />
+                                    <FontAwesomeIcon
+                                        icon={faGripVertical}
+                                        size="xl"
+                                    />
+                                </div>
                             </Reorder.Item>
                         ))}
                     </>
