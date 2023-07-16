@@ -4,6 +4,7 @@ import Image from "next/image";
 import Favorite from "../components/Favorite";
 import styles from "../page.module.css";
 import { useStore } from "../store";
+import CalculateRating from "../components/CalculateRating";
 
 const Restaurant = ({ errBool, data, error }) => {
     const restaurants = useStore((state) => state.restaurants);
@@ -28,6 +29,7 @@ const Restaurant = ({ errBool, data, error }) => {
                               <Favorite restaurant={restaurant} />
                               <p>{restaurant.name}</p>
                               <p>rating: {restaurant.rating}</p>
+                              <CalculateRating rating={restaurant.rating} />
                               <p>reviews {restaurant.review_count}</p>
                               <p>
                                   {restaurant.display_address[0] +

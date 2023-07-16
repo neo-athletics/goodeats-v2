@@ -35,6 +35,7 @@ type Action = {
     mergeFavandRes: (favorite: Restaurant[]) => void;
     addToAttended: (restaurant: Restaurant) => void;
     removeFromAttended: (restaurant: Restaurant) => void;
+    updateFavList: (favRestaurants: Restaurant[]) => void;
 };
 
 export const useStore = create<State & Action>()(
@@ -111,6 +112,11 @@ export const useStore = create<State & Action>()(
                     attendedRestaurants: state.attendedRestaurants.filter(
                         (value) => value.id !== restaurant.id
                     ),
+                })),
+            updateFavList: (favRestaurants: Restaurant[]) =>
+                set((state) => ({
+                    ...state,
+                    favorites: favRestaurants,
                 })),
         }),
         {

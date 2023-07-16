@@ -15,6 +15,7 @@ const Favorites = () => {
         addToAttended,
         removeFromAttended,
         attendedRestaurants,
+        updateFavList,
     } = useStore((state) => state);
     const [favs, setFavs] = useState(favorites);
     useEffect(() => {
@@ -38,13 +39,13 @@ const Favorites = () => {
             Favorites
             <Reorder.Group
                 axis="y"
-                onReorder={setFavs}
-                values={favs}
+                onReorder={updateFavList}
+                values={favorites}
                 className={styles.favoriteList}
             >
-                {favs.length > 0 && (
+                {favorites.length > 0 && (
                     <>
-                        {favs?.map((restaurant) => (
+                        {favorites?.map((restaurant) => (
                             <Reorder.Item
                                 value={restaurant}
                                 key={restaurant.id}
