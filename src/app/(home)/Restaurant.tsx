@@ -5,8 +5,22 @@ import Favorite from "../components/Favorite";
 import styles from "../page.module.css";
 import { useStore } from "../store";
 import CalculateRating from "../components/CalculateRating";
-
-const Restaurant = ({ errBool, data, error }) => {
+type Restaurant = {
+    id: string;
+    name: string;
+    image_url: string;
+    rating: number;
+    review_count: number;
+    display_address: string;
+    favorite: boolean;
+};
+const Restaurant = ({
+    errBool,
+    data,
+    error,
+}: {
+    data: Restaurant[] | "undefined";
+}) => {
     const restaurants = useStore((state) => state.restaurants);
     console.log(restaurants);
     // const restaurants = useStore().restaurants;

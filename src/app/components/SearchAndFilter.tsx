@@ -17,7 +17,6 @@ const SearchAndFilter = () => {
         if (state.restaurants.length > 0) {
             if (current.size < 3) {
                 for (const key in state.keyterms) {
-                    console.log(state.keyterms[key], "ki");
                     current.set(key, state.keyterms[key]);
                 }
                 router.push(`${pathname}?${current.toString()}`);
@@ -33,7 +32,7 @@ const SearchAndFilter = () => {
         return true;
     };
 
-    const handleChange = (e) => {
+    const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         if (location != "" && food != "") {
             setError({ ...error, status: false, message: "" });
             const current = new URLSearchParams(searchParams.toString());
@@ -72,7 +71,6 @@ const SearchAndFilter = () => {
         // }
         //aggregate new query to pathname
         for (const key in state.keyterms) {
-            console.log(state.keyterms[key], "ki-------");
             current.set(key, state.keyterms[key]);
         }
         // push new url

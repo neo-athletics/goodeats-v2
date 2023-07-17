@@ -3,8 +3,21 @@ import { useStore } from "../store";
 import { fetchRestaurants } from "../components/fetchRestaurantData";
 import Restaurant from "./Restaurant";
 import StoreInitializer from "../components/StoreInitializer";
-
-const HandleErrors = async ({ searchParams }) => {
+type RestaurantT = {
+    id: string;
+    name: string;
+    image_url: string;
+    rating: number;
+    review_count: number;
+    display_address: string;
+    favorite: boolean;
+};
+const HandleErrors = async ({
+    searchParams,
+}: {
+    searchParams: { location: string; food: string; sort_by: string };
+}) => {
+    console.log(searchParams, "searxh");
     const { location, food, sort_by } = searchParams;
 
     const requiredParams = ["location", "food", "sort_by"];
@@ -14,7 +27,7 @@ const HandleErrors = async ({ searchParams }) => {
     const paramsVal = Object.values(searchParams);
 
     let error;
-    let data;
+    let data: RestaurantT[] = [];
     let valBool = paramsVal.every((val) => val !== "");
 
     let keyBool = params.every((val) => requiredParams.includes(val));

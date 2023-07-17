@@ -28,7 +28,7 @@ export async function GET(request: Request) {
         }
         const data = await res.json();
         return NextResponse.json(data);
-    } catch (error) {
+    } catch (error: any) {
         console.log(typeof error, "route", error);
         return NextResponse.json(
             { error: error.error.description },

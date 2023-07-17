@@ -6,8 +6,18 @@ import styles from "../page.module.css";
 import { useStore } from "../store";
 import { faCheck, faGripVertical } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Reorder } from "framer-motion";
+import { Reorder, useDragControls } from "framer-motion";
 import CalculateRating from "../components/CalculateRating";
+
+type Restaurant = {
+    id: string;
+    name: string;
+    image_url: string;
+    rating: number;
+    review_count: number;
+    display_address: string;
+    favorite: boolean;
+};
 
 const Favorites = () => {
     const {
@@ -17,22 +27,12 @@ const Favorites = () => {
         attendedRestaurants,
         updateFavList,
     } = useStore((state) => state);
+    const controls = useDragControls();
     const [favs, setFavs] = useState(favorites);
     useEffect(() => {
         setFavs(favorites);
         //list goes back to original order once navigated away from page
     }, [favorites]);
-
-    console.log(attendedRestaurants);
-    const handleTruth = (restaurant) => {
-        console.log("truth");
-
-        addToAttended(restaurant);
-    };
-    const handleFalse = (restaurant) => {
-        console.log("false");
-        removeFromAttended(restaurant);
-    };
 
     return (
         <div>
@@ -50,9 +50,18 @@ const Favorites = () => {
                                 value={restaurant}
                                 key={restaurant.id}
                                 className={styles.favoriteItem}
+                                // whileDrag={{ scale: 1.05 }}
+                                // dragTransition={{
+                                //     bounceStiffness: 600,
+                                //     bounceDamping: 10,
+                                // }}
+                                dragListener={false}
+                                dragControls={controls}
                             >
-                                <div>
-                                    <p>{restaurant.name}</p>
+                                <div className={styles.imageWrapper}>
+                                    <p className={styles.title}>
+                                        {restaurant.name}
+                                    </p>
                                     <Image
                                         src={
                                             restaurant?.image_url !== ""
@@ -62,45 +71,56 @@ const Favorites = () => {
                                         alt="restaurant food"
                                         width={200}
                                         height={150}
+                                        className={styles.img}
                                     />
+                                    <div className={styles.critics}>
+                                        <CalculateRating
+                                            rating={restaurant.rating}
+                                        />
+                                        <span className={styles.reviewCount}>
+                                            {restaurant.review_count}
+                                        </span>
+                                    </div>
                                 </div>
 
-                                {/* convert the rating from  integer to star */}
-                                <p>rating: {restaurant.rating}</p>
-                                <CalculateRating rating={restaurant.rating} />
-                                <p>reviews {restaurant.review_count}</p>
-                                <p>
-                                    {restaurant.display_address[0] +
-                                        " " +
-                                        restaurant.display_address[1]}
-                                </p>
                                 <div>
-                                    <Favorite restaurant={restaurant} />
-                                    <FontAwesomeIcon
-                                        icon={faCheck}
-                                        size="xl"
-                                        className={
-                                            attendedRestaurants.find(
-                                                (val) =>
-                                                    restaurant.id === val.id
-                                            ) != undefined
-                                                ? styles.attended
-                                                : styles.notAttended
-                                        }
-                                        onClick={() =>
-                                            attendedRestaurants.find(
-                                                (val) =>
-                                                    restaurant.id === val.id
-                                            ) === undefined
-                                                ? handleTruth(restaurant)
-                                                : handleFalse(restaurant)
-                                        }
-                                    />
-                                    <FontAwesomeIcon
-                                        icon={faGripVertical}
-                                        size="xl"
-                                    />
+                                    <p>
+                                        {restaurant.display_address[0] +
+                                            " " +
+                                            restaurant.display_address[1]}
+                                    </p>
                                 </div>
+
+                                <FontAwesomeIcon
+                                    icon={faCheck}
+                                    size="xl"
+                                    className={
+                                        attendedRestaurants.find(
+                                            (val) => restaurant.id === val.id
+                                        ) != undefined
+                                            ? styles.attended
+                                            : styles.notAttended
+                                    }
+                                    onClick={() =>
+                                        attendedRestaurants.find(
+                                            (val) => restaurant.id === val.id
+                                        ) === undefined
+                                            ? addToAttended(restaurant)
+                                            : removeFromAttended(restaurant)
+                                    }
+                                />
+                                <Favorite restaurant={restaurant} />
+
+                                <FontAwesomeIcon
+                                    icon={faGripVertical}
+                                    size="xl"
+                                    className="reorder-handle"
+                                    onPointerDown={(event) =>
+                                        controls.start(event, {
+                                            snapToCursor: false,
+                                        })
+                                    }
+                                />
                             </Reorder.Item>
                         ))}
                     </>

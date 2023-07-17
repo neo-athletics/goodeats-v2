@@ -5,17 +5,18 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { faStar } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import styles from "../page.module.css";
 
 const CalculateRating = ({ rating }: { rating: number }) => {
     let total = 5;
     let modRemainder = rating % 1;
     let solidStar = (
-        <FontAwesomeIcon icon={starSolid} color="yellow" size="lg" />
+        <FontAwesomeIcon icon={starSolid} color="black" size="lg" />
     );
     let halfStar = (
-        <FontAwesomeIcon icon={faStarHalfStroke} color="yellow" size="lg" />
+        <FontAwesomeIcon icon={faStarHalfStroke} color="black" size="lg" />
     );
-    let emptyStar = <FontAwesomeIcon icon={faStar} color="yellow" size="lg" />;
+    let emptyStar = <FontAwesomeIcon icon={faStar} color="black" size="lg" />;
     let remainder = total - rating;
     let starArray = [];
 
@@ -37,6 +38,6 @@ const CalculateRating = ({ rating }: { rating: number }) => {
         }
     } while (starArray.length != 5);
 
-    return <div>{starArray}</div>;
+    return <span className={styles.rating}>{starArray}</span>;
 };
 export default CalculateRating;
