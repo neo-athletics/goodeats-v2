@@ -4,20 +4,10 @@ import Image from "next/image";
 import Favorite from "../components/Favorite";
 import styles from "../page.module.css";
 import { useStore } from "../store";
-import { faCheck, faGripVertical } from "@fortawesome/free-solid-svg-icons";
+import { faCheck } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Reorder, useDragControls } from "framer-motion";
+import { Reorder, stagger, useAnimate } from "framer-motion";
 import CalculateRating from "../components/CalculateRating";
-
-type Restaurant = {
-    id: string;
-    name: string;
-    image_url: string;
-    rating: number;
-    review_count: number;
-    display_address: string;
-    favorite: boolean;
-};
 
 const Favorites = () => {
     const {
@@ -27,70 +17,61 @@ const Favorites = () => {
         attendedRestaurants,
         updateFavList,
     } = useStore((state) => state);
-    const controls = useDragControls();
+
     const [favs, setFavs] = useState(favorites);
+    const [scope, animate] = useAnimate();
     useEffect(() => {
         setFavs(favorites);
-        //list goes back to original order once navigated away from page
-    }, [favorites]);
+        animate("li", { opacity: 1 }, { delay: stagger(0.1) });
+    }, [favorites, animate, scope]);
 
     return (
-        <div>
-            Favorites
-            <Reorder.Group
-                axis="y"
-                onReorder={updateFavList}
-                values={favorites}
-                className={styles.favoriteList}
-            >
-                {favorites.length > 0 && (
-                    <>
-                        {favorites?.map((restaurant) => (
-                            <Reorder.Item
-                                value={restaurant}
-                                key={restaurant.id}
-                                className={styles.favoriteItem}
-                                // whileDrag={{ scale: 1.05 }}
-                                // dragTransition={{
-                                //     bounceStiffness: 600,
-                                //     bounceDamping: 10,
-                                // }}
-                                dragListener={false}
-                                dragControls={controls}
-                            >
-                                <div className={styles.imageWrapper}>
-                                    <p className={styles.title}>
-                                        {restaurant.name}
-                                    </p>
-                                    <Image
-                                        src={
-                                            restaurant?.image_url !== ""
-                                                ? restaurant?.image_url
-                                                : "/../public/coffee_img.jpg"
-                                        }
-                                        alt="restaurant food"
-                                        width={200}
-                                        height={150}
-                                        className={styles.img}
+        <Reorder.Group
+            ref={scope}
+            axis="y"
+            onReorder={updateFavList}
+            values={favorites}
+            className={styles.favoriteList}
+        >
+            {favorites.length > 0 && (
+                <>
+                    {favorites.map((restaurant) => (
+                        <Reorder.Item
+                            value={restaurant}
+                            key={restaurant.id}
+                            className={styles.favoriteItem}
+                        >
+                            <div className={styles.imageWrapper}>
+                                <p className={styles.title}>
+                                    {restaurant.name}
+                                </p>
+                                <Image
+                                    src={
+                                        restaurant?.image_url !== ""
+                                            ? restaurant?.image_url
+                                            : "/../public/coffee_img.jpg"
+                                    }
+                                    alt="restaurant food"
+                                    width={200}
+                                    height={150}
+                                    className={styles.img}
+                                />
+                                <div className={styles.critics}>
+                                    <CalculateRating
+                                        rating={restaurant.rating}
                                     />
-                                    <div className={styles.critics}>
-                                        <CalculateRating
-                                            rating={restaurant.rating}
-                                        />
-                                        <span className={styles.reviewCount}>
-                                            {restaurant.review_count}
-                                        </span>
-                                    </div>
+                                    <span className={styles.reviewCount}>
+                                        {restaurant.review_count}
+                                    </span>
                                 </div>
+                            </div>
 
-                                <div>
-                                    <p>
-                                        {restaurant.display_address[0] +
-                                            " " +
-                                            restaurant.display_address[1]}
-                                    </p>
-                                </div>
-
+                            <div className={styles.address}>
+                                <p>{restaurant.display_address[0]}</p>
+                                <p>{restaurant.display_address[1]}</p>
+                            </div>
+                            <div></div>
+                            <div className={styles.checkIcon}>
                                 <FontAwesomeIcon
                                     icon={faCheck}
                                     size="xl"
@@ -109,24 +90,15 @@ const Favorites = () => {
                                             : removeFromAttended(restaurant)
                                     }
                                 />
+                            </div>
+                            <div className={styles.heartIcon}>
                                 <Favorite restaurant={restaurant} />
-
-                                <FontAwesomeIcon
-                                    icon={faGripVertical}
-                                    size="xl"
-                                    className="reorder-handle"
-                                    onPointerDown={(event) =>
-                                        controls.start(event, {
-                                            snapToCursor: false,
-                                        })
-                                    }
-                                />
-                            </Reorder.Item>
-                        ))}
-                    </>
-                )}
-            </Reorder.Group>
-        </div>
+                            </div>
+                        </Reorder.Item>
+                    ))}
+                </>
+            )}
+        </Reorder.Group>
     );
 };
 

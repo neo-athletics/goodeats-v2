@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import Header from "./components/Header";
 import { config } from "@fortawesome/fontawesome-svg-core";
 import "@fortawesome/fontawesome-svg-core/styles.css";
+import HydrationZustand from "./HydrationZustand";
 config.autoAddCss = false;
 
 const inter = Inter({ subsets: ["latin"] });
@@ -21,7 +22,7 @@ export default function RootLayout({
         <html lang="en">
             <body className={inter.className}>
                 <Header />
-                {children}
+                <HydrationZustand>{children}</HydrationZustand>
             </body>
         </html>
     );

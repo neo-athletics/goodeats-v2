@@ -42,11 +42,12 @@
 }
 .favoriteItem {
     display: grid;
-    grid-template-columns: 260px 260px 75px 75px 130px;
+    grid-template-columns: 260px 260px 130px 75px 75px;
     width: 800px;
     height: 250px;
     position: relative;
-    border: 1px solid black;
+    border: 3px solid black;
+    border-radius: 5px;
     list-style-type: none;
     align-items: center;
 }
@@ -69,8 +70,26 @@
     margin-top: -9px;
 }
 .imageWrapper {
-    margin-left: 10px;
+    /* margin-left: 10px; */
+    justify-self: center;
 }
 .critics {
     margin-top: 5px;
+}
+.checkIcon {
+    align-self: start;
+    justify-self: end;
+    margin-top: 10px;
+}
+.heartIcon {
+    align-self: start;
+    justify-self: center;
+    margin-top: 10px;
+}
+.address {
+    justify-self: center;
+    font-weight: 500;
+}
+.img {
+    border-radius: 5px;
 }
