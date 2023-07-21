@@ -1,6 +1,6 @@
 .results {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 360px));
+    grid-template-columns: repeat(auto-fill, minmax(320px, 460px));
     grid-auto-rows: 290px;
     justify-content: center;
     column-gap: 20px;
@@ -10,10 +10,18 @@
     margin-right: 10px;
 }
 .box {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     height: auto;
-    width: 350px;
-    border: 2px solid black;
+    width: 450px;
+    border: 3px solid black;
     position: relative;
+    border-radius: 5px;
+}
+.box img {
+    border-radius: 5px;
+    margin-left: 12px;
+    margin-top: 12px;
 }
 .favoriteContainer {
     position: absolute;

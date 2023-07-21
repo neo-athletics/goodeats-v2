@@ -1,11 +1,8 @@
-import { useStore } from "../store";
 export const fetchRestaurants = async (
     location: string,
     food: string,
     sort_by: string
 ) => {
-    //find a way to get local storage value on server side component
-    console.log(useStore.getState().favorites, "fetch favorites");
     try {
         const res = await fetch(
             `http://localhost:3000/api/restaurants/?location=${location}&term=${food}&sort_by=${sort_by}`
@@ -17,7 +14,8 @@ export const fetchRestaurants = async (
         }
 
         const yelpData = await res.json();
-        return yelpData.businesses?.map((business: any) => {
+
+        return yelpData?.businesses.map((business: any) => {
             const {
                 id,
                 name,

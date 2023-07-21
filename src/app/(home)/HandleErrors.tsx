@@ -3,6 +3,8 @@ import { useStore } from "../store";
 import { fetchRestaurants } from "../components/fetchRestaurantData";
 import Restaurant from "./Restaurant";
 import StoreInitializer from "../components/StoreInitializer";
+import { fetchHours } from "../components/fetchHours";
+
 type RestaurantT = {
     id: string;
     name: string;
@@ -17,7 +19,6 @@ const HandleErrors = async ({
 }: {
     searchParams: { location: string; food: string; sort_by: string };
 }) => {
-    console.log(searchParams, "searxh");
     const { location, food, sort_by } = searchParams;
 
     const requiredParams = ["location", "food", "sort_by"];
@@ -32,12 +33,22 @@ const HandleErrors = async ({
 
     let keyBool = params.every((val) => requiredParams.includes(val));
     let errBool = false;
-    console.log(params, sort_by, "from errorhandler");
+
     //execute fetch function here
     if (params.length === 3 && valBool && keyBool) {
         //check params before making api call
         data = await fetchRestaurants(location, food, sort_by);
-        console.log("cap", location, food, sort_by);
+        console.log(data, "checking again");
+        const infoData = await Promise.all(
+            data.map(async (item) => {
+                const moreInfo = await fetchHours(item.id);
+                return {
+                    ...item,
+                    hours: moreInfo.hours,
+                };
+            })
+        );
+        console.log(infoData[0], "ExtraInfo");
         //check if state is being updated
         if (Array.isArray(data) && data.length > 0) {
             useStore.setState((state) => ({

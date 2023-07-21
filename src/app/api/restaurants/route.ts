@@ -15,8 +15,6 @@ export async function GET(request: Request) {
         },
     };
 
-    //check for input of the searchparams
-
     try {
         const res = await fetch(
             `https://api.yelp.com/v3/businesses/search?location=${location}&term=${food}&sort_by=${sort_by}&limit=20`,
@@ -27,6 +25,9 @@ export async function GET(request: Request) {
             throw await res.json();
         }
         const data = await res.json();
+        console.log(data[0], "server");
+        //might have to make api call here and iterate through data
+
         return NextResponse.json(data);
     } catch (error: any) {
         console.log(typeof error, "route", error);
