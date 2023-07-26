@@ -24,6 +24,7 @@ type Restaurant = {
     review_count: number;
     display_address: string;
     favorite: boolean;
+    hours: any;
 };
 
 type Action = {

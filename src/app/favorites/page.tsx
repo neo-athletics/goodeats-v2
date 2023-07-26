@@ -6,8 +6,9 @@ import styles from "../page.module.css";
 import { useStore } from "../store";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Reorder, stagger, useAnimate } from "framer-motion";
+import { Reorder } from "framer-motion";
 import CalculateRating from "../components/CalculateRating";
+import ItemDate from "../(home)/ItemDate";
 
 const Favorites = () => {
     const {
@@ -19,15 +20,13 @@ const Favorites = () => {
     } = useStore((state) => state);
 
     const [favs, setFavs] = useState(favorites);
-    const [scope, animate] = useAnimate();
+
     useEffect(() => {
         setFavs(favorites);
-        animate("li", { opacity: 1 }, { delay: stagger(0.1) });
-    }, [favorites, animate, scope]);
+    }, [favorites]);
 
     return (
         <Reorder.Group
-            ref={scope}
             axis="y"
             onReorder={updateFavList}
             values={favorites}
@@ -69,6 +68,7 @@ const Favorites = () => {
                             <div className={styles.address}>
                                 <p>{restaurant.display_address[0]}</p>
                                 <p>{restaurant.display_address[1]}</p>
+                                <ItemDate time={restaurant.hours} />
                             </div>
                             <div></div>
                             <div className={styles.checkIcon}>

@@ -38,22 +38,23 @@ const HandleErrors = async ({
     if (params.length === 3 && valBool && keyBool) {
         //check params before making api call
         data = await fetchRestaurants(location, food, sort_by);
-        console.log(data, "checking again");
-        const infoData = await Promise.all(
-            data.map(async (item) => {
-                const moreInfo = await fetchHours(item.id);
-                return {
-                    ...item,
-                    hours: moreInfo.hours,
-                };
-            })
-        );
-        console.log(infoData[0], "ExtraInfo");
+
         //check if state is being updated
         if (Array.isArray(data) && data.length > 0) {
+            const infoData = await Promise.all(
+                data.map(async (item, i) => {
+                    const moreInfo = await fetchHours(item.id);
+                    console.log(moreInfo.hours, i);
+                    return {
+                        ...item,
+                        hours: moreInfo.hours,
+                    };
+                })
+            );
+
             useStore.setState((state) => ({
                 ...state,
-                restaurants: [...data],
+                restaurants: [...infoData],
                 keyterms: { location, food, sort_by },
             }));
 

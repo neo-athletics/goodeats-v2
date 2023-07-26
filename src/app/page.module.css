@@ -1,6 +1,6 @@
 .results {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 460px));
+    grid-template-columns: repeat(auto-fill, minmax(320px, 500px));
     grid-auto-rows: 290px;
     justify-content: center;
     column-gap: 20px;
@@ -11,17 +11,24 @@
 }
 .box {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 230px 240px;
     height: auto;
-    width: 450px;
+    width: 500px;
     border: 3px solid black;
     position: relative;
     border-radius: 5px;
 }
+.itemImageCon {
+    display: grid;
+    justify-self: center;
+}
+.itemName {
+    margin-top: 10px;
+    font-size: 16px;
+    font-weight: 600;
+}
 .box img {
     border-radius: 5px;
-    margin-left: 12px;
-    margin-top: 12px;
 }
 .favoriteContainer {
     position: absolute;
@@ -97,7 +104,59 @@
 .address {
     justify-self: center;
     font-weight: 500;
+    font-size: 15;
+}
+.address p:nth-child(2) {
+    margin-bottom: 5px;
 }
 .img {
     border-radius: 5px;
+}
+.week {
+    font-size: 14px;
+    font-weight: 500;
+    list-style-type: none;
+}
+.day {
+    display: inline-block;
+    margin-left: 10px;
+    margin-bottom: 2px;
+}
+.infoCon {
+    display: grid;
+    grid-template-rows: 40px 1fr;
+}
+.heartCon {
+    justify-self: end;
+    align-self: end;
+}
+.formCon {
+    margin: auto;
+}
+.form {
+    display: grid;
+    grid-template-columns: 240px 240px 301px;
+    justify-content: center;
+    margin-bottom: 35px;
+    gap: 10px;
+}
+.locationCon,
+.restaurantCon,
+.filterCon {
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+}
+.submitBtn {
+    width: 200px;
+    border: none;
+    box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2),
+        -1px -1px 2px 0px rgba(0, 0, 0, 0.2);
+    height: 20px;
+    border-radius: 3px;
+    background-color: rgb(230, 234, 238);
+    font-size: 14px;
+    font-weight: 400;
+}
+.filter {
+    margin-right: 10px;
 }

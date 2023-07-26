@@ -12,6 +12,7 @@ type Restaurant = {
     review_count: number;
     display_address: string;
     favorite: boolean;
+    hours: any;
 };
 
 const Restaurant = ({
@@ -21,7 +22,8 @@ const Restaurant = ({
 }: {
     data: Restaurant[] | "undefined";
 }) => {
-    const restaurants = useStore((state) => state.restaurants);
+    // const restaurants = useStore((state) => state.restaurants);
+    const restaurants = useStore().restaurants;
 
     return (
         <div className={styles.results}>

@@ -2,7 +2,8 @@
 import { useStore } from "../store";
 import React, { useEffect, useState } from "react";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
-
+import styles from "../page.module.css";
+import { motion } from "framer-motion";
 const SearchAndFilter = () => {
     const router = useRouter();
     const pathname = usePathname();
@@ -80,50 +81,63 @@ const SearchAndFilter = () => {
     };
 
     return (
-        <div>
-            <form>
-                <label htmlFor="location">Location</label>
-                <input
-                    id="location"
-                    name="location"
-                    type="text"
-                    placeholder="location"
-                    onChange={(e) =>
-                        state.updateTerm(e.target.name, e.target.value)
-                    }
-                    value={location}
-                    required={true}
-                />
-                <label htmlFor="food">Restaurant</label>
-                <input
-                    id="food"
-                    name="food"
-                    type="text"
-                    placeholder="food, starbucks"
-                    onChange={(e) =>
-                        state.updateTerm(e.target.name, e.target.value)
-                    }
-                    value={food}
-                    required={true}
-                />
+        <div className={styles.formCon}>
+            <form className={styles.form}>
+                <div className={styles.locationCon}>
+                    <label htmlFor="location">Location</label>
+                    <input
+                        id="location"
+                        name="location"
+                        type="text"
+                        placeholder="location"
+                        onChange={(e) =>
+                            state.updateTerm(e.target.name, e.target.value)
+                        }
+                        value={location}
+                        required={true}
+                    />
+                </div>
+                <div className={styles.restaurantCon}>
+                    <label htmlFor="food">Restaurant</label>
+                    <input
+                        id="food"
+                        name="food"
+                        type="text"
+                        placeholder="food, starbucks"
+                        onChange={(e) =>
+                            state.updateTerm(e.target.name, e.target.value)
+                        }
+                        value={food}
+                        required={true}
+                    />
+                </div>
+
                 {/* initial search has a blank value for select(sort_by) */}
-
-                <select
-                    value={sort_by}
-                    name="sort_by"
-                    onChange={(e) => handleChange(e)}
-                >
-                    <option value="best_match">Best Match</option>
-                    <option value="rating">Rating</option>
-                    <option value="review_count">Review</option>
-                </select>
-
-                <button
-                    disabled={!validate() ? true : false}
-                    onClick={searchHandler}
-                >
-                    search
-                </button>
+                <div className={styles.filterCon}>
+                    <div></div>
+                    <div>
+                        <select
+                            value={sort_by}
+                            name="sort_by"
+                            onChange={(e) => handleChange(e)}
+                            className={styles.filter}
+                        >
+                            <option value="best_match">Best Match</option>
+                            <option value="rating">Rating</option>
+                            <option value="review_count">Review</option>
+                        </select>
+                        <motion.button
+                            disabled={!validate() ? true : false}
+                            onClick={searchHandler}
+                            className={styles.submitBtn}
+                            initial={{ opacity: 0.6 }}
+                            whileTap={{ scale: 0.9 }}
+                            whileInView={{ opacity: 1 }}
+                        >
+                            search
+                        </motion.button>
+                    </div>
+                </div>
             </form>
             {error.status ? error.message : null}
         </div>

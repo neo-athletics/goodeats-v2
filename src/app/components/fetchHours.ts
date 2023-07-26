@@ -7,6 +7,7 @@ export const fetchHours = async (id: string) => {
             const error = await res.json();
             throw error;
         }
+
         const info = await res.json();
 
         return info;
