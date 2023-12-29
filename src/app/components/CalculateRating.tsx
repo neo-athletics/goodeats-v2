@@ -11,10 +11,10 @@ const CalculateRating = ({ rating }: { rating: number }) => {
     let total = 5;
     let modRemainder = rating % 1;
     let solidStar = (
-        <FontAwesomeIcon icon={starSolid} color="black" size="lg" />
+        <FontAwesomeIcon icon={starSolid} color="yellow" size="lg" />
     );
     let halfStar = (
-        <FontAwesomeIcon icon={faStarHalfStroke} color="black" size="lg" />
+        <FontAwesomeIcon icon={faStarHalfStroke} color="yellow" size="lg" />
     );
     let emptyStar = <FontAwesomeIcon icon={faStar} color="black" size="lg" />;
     let remainder = total - rating;
