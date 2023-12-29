@@ -12,24 +12,28 @@
 .box {
     display: grid;
     grid-template-columns: 230px 240px;
+    position: relative;
     height: auto;
     width: 500px;
     border: 3px solid black;
     position: relative;
     border-radius: 5px;
 }
+.imageComponent {
+    height: auto;
+    width: 500px;
+}
 .itemImageCon {
     display: grid;
     justify-self: center;
+    grid-area: image;
 }
 .itemName {
     margin-top: 10px;
     font-size: 16px;
     font-weight: 600;
 }
-.box img {
-    border-radius: 5px;
-}
+
 .favoriteContainer {
     position: absolute;
     top: 20px;
@@ -107,7 +111,7 @@
     font-size: 15;
 }
 .address p:nth-child(2) {
-    margin-bottom: 5px;
+    margin-bottom: 9px;
 }
 .img {
     border-radius: 5px;
@@ -125,17 +129,23 @@
 .infoCon {
     display: grid;
     grid-template-rows: 40px 1fr;
+    grid-area: address;
+    justify-self: start;
+    margin-left: 17px;
 }
 .heartCon {
     justify-self: end;
-    align-self: end;
+    grid-area: heart;
+    margin-right: 19px;
+    margin-top: 10px;
 }
 .formCon {
     margin: auto;
 }
+/* stack inputs on 840px width make inputs responsive */
 .form {
     display: grid;
-    grid-template-columns: 240px 240px 301px;
+    grid-template-columns: 230px 230px 230px 230px;
     justify-content: center;
     margin-bottom: 35px;
     gap: 10px;
@@ -159,4 +169,53 @@
 }
 .filter {
     margin-right: 10px;
+}
+@media (max-width: 900px) {
+    .form {
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr 1fr 1fr;
+    }
+    .results {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 340px));
+    }
+    .box {
+        width: 340px;
+        justify-self: center;
+        height: auto;
+        grid-template:
+            "image image heart" 1fr
+            "address address address " 2fr;
+    }
+    .imageComponent {
+        top: 0;
+        left: 0;
+        width: 100%;
+        position: absolute;
+        height: 100%;
+        z-index: 1;
+    }
+    .box::after {
+        content: " ";
+        display: block;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: rgba(65, 65, 65, 0.651);
+        z-index: 1;
+    }
+    .itemName,
+    .critics,
+    .heartCon,
+    .infoCon {
+        z-index: 2;
+    }
+    .itemName,
+    .critics {
+        height: 20px;
+    }
+    .itemImageCon {
+        justify-self: left;
+        margin-left: 19px;
+        height: fit-content;
+    }
 }

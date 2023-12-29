@@ -28,6 +28,7 @@ const Item = ({ restaurant, key }: { restaurant: Restaurant; key: number }) => {
                     alt="restaurant food"
                     width={200}
                     height={200}
+                    className={styles.imageComponent}
                     priority
                 />
                 <div className={styles.critics}>
@@ -37,10 +38,10 @@ const Item = ({ restaurant, key }: { restaurant: Restaurant; key: number }) => {
                     </span>
                 </div>
             </div>
+            <div className={styles.heartCon}>
+                <Favorite restaurant={restaurant} />
+            </div>
             <div className={styles.infoCon}>
-                <div className={styles.heartCon}>
-                    <Favorite restaurant={restaurant} />
-                </div>
                 <div className={styles.address}>
                     <p>{restaurant.display_address[0]}</p>
                     <p>{restaurant.display_address[1]}</p>
