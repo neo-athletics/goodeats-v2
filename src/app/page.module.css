@@ -142,13 +142,24 @@
 .formCon {
     margin: auto;
 }
-/* stack inputs on 840px width make inputs responsive */
+
 .form {
     display: grid;
-    grid-template-columns: 230px 230px 230px 230px;
+    grid-template:
+        "locationInput restaurantInput filterInput" 1fr
+        "submit submit submit" 1fr;
     justify-content: center;
     margin-bottom: 35px;
     gap: 10px;
+}
+.locationCon {
+    grid-area: locationInput;
+}
+.restaurantCon {
+    grid-area: restaurantInput;
+}
+.filterCon {
+    grid-area: filterInput;
 }
 .locationCon,
 .restaurantCon,
@@ -157,7 +168,6 @@
     grid-template-rows: 1fr 1fr;
 }
 .submitBtn {
-    width: 200px;
     border: none;
     box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2),
         -1px -1px 2px 0px rgba(0, 0, 0, 0.2);
@@ -166,14 +176,17 @@
     background-color: rgb(230, 234, 238);
     font-size: 14px;
     font-weight: 400;
+    grid-area: submit;
+    width: 100%;
 }
 .filter {
-    margin-right: 10px;
+    padding-right: 10px;
 }
 @media (max-width: 900px) {
     .form {
-        grid-template-columns: 1fr;
-        grid-template-rows: 1fr 1fr 1fr;
+        /* grid-template-columns: 1fr;
+        grid-template-rows: 1fr 1fr 1fr; */
+        grid-template: "locationInput" "restaurantInput" "filterInput" "submit" 1fr/1fr;
         padding-left: 10px;
         padding-right: 10px;
     }

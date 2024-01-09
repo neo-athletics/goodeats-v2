@@ -126,19 +126,17 @@ const SearchAndFilter = () => {
                         <option value="review_count">Review</option>
                     </select>
                 </div>
-                <div className={styles.filterCon}>
-                    <div></div>
-                    <motion.button
-                        disabled={!validate() ? true : false}
-                        onClick={searchHandler}
-                        className={styles.submitBtn}
-                        initial={{ opacity: 0.6 }}
-                        whileTap={{ scale: 0.9 }}
-                        whileInView={{ opacity: 1 }}
-                    >
-                        search
-                    </motion.button>
-                </div>
+
+                <motion.button
+                    disabled={!validate() ? true : false}
+                    onClick={searchHandler}
+                    className={styles.submitBtn}
+                    initial={{ opacity: 0.6 }}
+                    whileTap={{ scale: 0.9 }}
+                    whileInView={{ opacity: 1 }}
+                >
+                    search
+                </motion.button>
             </form>
             {error.status ? error.message : null}
         </div>
