@@ -174,6 +174,8 @@
     .form {
         grid-template-columns: 1fr;
         grid-template-rows: 1fr 1fr 1fr;
+        padding-left: 10px;
+        padding-right: 10px;
     }
     .results {
         grid-template-columns: repeat(auto-fill, minmax(250px, 340px));
@@ -217,11 +219,24 @@
     .itemName,
     .reviewCount,
     .address {
-        color: rgb(209, 209, 209);
+        color: rgb(235, 235, 235);
     }
     .itemImageCon {
         justify-self: left;
         margin-left: 19px;
         height: fit-content;
+    }
+    .itemName {
+        font-size: 17px;
+    }
+    .submitBtn {
+        width: 100%;
+    }
+    .filter {
+        margin-right: 0;
+    }
+    .restaurantCon,
+    .locationCon {
+        row-gap: 7px;
     }
 }
